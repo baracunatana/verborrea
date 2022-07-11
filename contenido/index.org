@@ -1,0 +1,8 @@
+#+title: Verborrea
+#+author: Juan E. Gómez-Morantes
+#+date: 2022:07:09
+
+Bienvenido a Verborrea, un espacio en donde redondeo y descargo mis ideas para liberar un poco mi cerebro. T
+
+Notas:
++ [[file:publicarConEmacs.org][Cómo publicar sitios web estáticos con Emacs]]
