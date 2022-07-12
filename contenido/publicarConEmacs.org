@@ -3,14 +3,14 @@
 #+date: 2022:07:10
 
 * Introducción 
-Esta nota muestra cómo crear un sitio web estática usando Emacs y cómo publicarlo en [[http://github.io]].
+Esta nota muestra cómo crear un sitio web estático usando Emacs que pueda ser publicado en servicios como [[http://github.io]].
 
 Está inspirado y basado en una [[https://systemcrafters.net/publishing-websites-with-org-mode/building-the-site/][guía similar]] desarrollada por David Wilson y hace constante referencia a los manuales de Emacs y Orgmode.
 
 * ¿Por qué un sitio web estático?
 Cualquiera que esté pensando en publicar un sitio web sencillo pensaría en primera instancia en usar en servicio de publicación como wordpress.com o blogger.com. Sin embargo, estos servicios, a mi parecer, se pueden convertir rápidamente en una camisa de fuerza que nos impida hacer cosas que queremos hacer (como controlar completamente el CSS de nuestro sitio), o que nos obligue a hacer cosas que no queremos hacer (como mostrar publicidad o vulnerar la privacidad de nuestros lectores). En adición, el valor agregado es muy poco si lo que queremos hacer es un sitio sencillo y sin contenido activo o interactivo.
 
-Los sitios web estáticos, en cambio, son conjuntos de archivos hmtl sobre los que tenemos absoluto control y que se publicar en servicios como github.io. Al ser archivos estáticos, y servicios sin capacidades de almacenamiento o procesamiento, lo que publiquemos es lo que es; no hay forma de enriquecer o modificar el contenido con comentarios, posts de usuarios o contenido interactivo. 
+Los sitios web estáticos, en cambio, son conjuntos de archivos hmtl sobre los que tenemos absoluto control y que se publican en servicios como http://github.io. Al ser archivos estáticos, y servicios sin capacidades de almacenamiento o procesamiento, lo que publiquemos es lo que es; no hay forma de enriquecer o modificar el contenido con comentarios, posts de usuarios o contenido interactivo. 
 
 * Inicio
 Lo primero que tenemos que hacer para crear y publicar nuestro sitio web es crear una carpeta en donde tengamos un conjunto de archivos =.org= que serán luego exportados a archivos =.html= y conformarán nuestro sitio web. Es muy importante tener uno llamado =index.org= porque éste va a servir como página inicial de nuestro sitio web. También hay que tener en cuenta que para crear enlaces entre las páginas de nuestro sitio web lo único que tenemos que hacer es crear enlaces entre los archivos =.org= fuentes teniendo cuidado de que las rutas sean relativas.  
@@ -28,7 +28,7 @@ En adición, esta carpeta va a tener algunos archivos de gestión como /scripts/
 * Exportando el sitio web
 Existen muchas formas de exportar nuestros archivos =.org= a =.html=. La primera consiste en usar el =M-x org-export-dispatch= en cada uno de los archivos. Si bien esto nos da un control preciso de lo que estamos haciendo, es supremamente inconveniente y lento. Otra opción consiste en crear una función en elisp que recorra todos los archivos =.org= en nuestra carpeta y ejecute =M-x org-html-export-to-html= en cada uno de ellos. Sin embargo, como casi siempre en el mundo de emacs, este problema ya fue resuelto por alguien más, y esa solución se llama [[https://orgmode.org/manual/Publishing.html][=org-publish=]].
 
-=org-publish= es un sistema de publicación de sitios web estáticos que entiende una carpeta como un proyecto. Tiene funcionalidades para configurar plantillas, configuraciones comunes de exportación y publicación automática a servidores en línea. Toma en cuenta archivos no-org (imágenes, pdf, etc.) y funciona de forma recursiva (i.e. en todas las sub-carpetas incluidas en la carpeta principal del proyecto). Al funcionar por carpetas que representan proyectos, resulta conveniente crear dos carpetas nuevas en nuestro proyecto; una para los archivos fuentes =.org= y otra llamada =público= en donde va a queda nuestro sitio web completo con todos los archivos =.html= listos para publicación.
+=org-publish= es un sistema de publicación de sitios web estáticos que entiende una carpeta como un proyecto. Tiene funcionalidades para configurar plantillas, configuraciones comunes de generación y publicación automática a servidores en línea. Toma en cuenta archivos no-org (imágenes, pdf, etc.) y funciona de forma recursiva (i.e. en todas las sub-carpetas incluidas en la carpeta principal del proyecto). Al funcionar por carpetas que representan proyectos, resulta conveniente crear dos carpetas nuevas en nuestro proyecto; una para los archivos fuentes =.org= y otra llamada =docs=[fn:1] en donde va a queda nuestro sitio web completo con todos los archivos =.html= listos para publicación.
 
 Las carpeta de nuestro proyecto ahora se ve así:
 
@@ -37,7 +37,7 @@ Las carpeta de nuestro proyecto ahora se ve así:
   mkdir tempPublicar
   cd tempPublicar
   mkdir contenido
-  mkdir publico
+  mkdir docs
   touch ./contenido/index.org
   tree
 #+end_src
@@ -50,11 +50,11 @@ La definición de los proyectos tomados en cuenta por =org-publish= se hace con 
          (list "verborrea"
                :recursive t
                :base-directory "/ruta/a/carpeta/contenido"
-               :publishing-directory "/ruta/a/carpeta/publico"
+               :publishing-directory "/ruta/a/carpeta/docs"
                :publishing-function 'org-html-publish-to-html)))
 #+end_src
 
-Una vez registrado el proyecto, lo único que tenemos que hacer es llamar =M-x org-publish= desde emacs y especificar el nombre de nuestro proyecto para que se ejecute la publicación. También podemos llamar =M-x org-publish-all= para ejecutar todos nuestros proyectos.
+Una vez registrado el proyecto, lo único que tenemos que hacer es llamar =M-x org-publish= desde emacs y especificar el nombre de nuestro proyecto para que se ejecute la publicación. También podemos llamar =M-x org-publish-all= para generar todos los sitios web que tengamos registrados en =org-publish-project-alist=.
 
 Ejecutando =org-publish= en nuestro proyecto ejemplo, llegamos a la siguiente estructura de archivos:
 
@@ -63,9 +63,9 @@ Ejecutando =org-publish= en nuestro proyecto ejemplo, llegamos a la siguiente es
         (list (list "prueba"
            :recrusive t
            :base-directory "./tempPublicar/contenido"
-           :publishing-directory "./tempPublicar/publico"
+           :publishing-directory "./tempPublicar/docs"
            :publishing-function 'org-html-publish-to-html))))
-    (org-publish-all))
+    (org-publish-all t))
 #+end_src
 
 #+begin_src sh :results output :exports results :eval yes
@@ -74,7 +74,7 @@ Ejecutando =org-publish= en nuestro proyecto ejemplo, llegamos a la siguiente es
 #+end_src
 
 * Prueba y visualización
-Si bien se pueden ver los archivos =.html= de forma individual usando cualquier explorar web, existe una mejor forma de probar nuestro sitio web como se vería una vez publicado en un servidor web, y nos la permite el paquete =simple-httpd= de Emacs. Una vez instalemos =siple-httpd= en emacs, se puede ejecutar =M-x httpd-serve-directory= especificando la ruta a nuestro directorio público. Luego, desde un navegador web, nos dirigimos a localhost:8080 y veremos nuestro sitio web completo.
+Si bien se pueden ver los archivos =.html= de forma individual usando cualquier explorador web, existe una mejor forma de probar nuestro sitio web como se vería una vez publicado en un servidor web, y nos la permite el paquete =simple-httpd= de Emacs. Una vez instalemos =simple-httpd= en emacs, se puede ejecutar =M-x httpd-serve-directory= especificando la ruta a nuestro directorio =docs=. Luego, desde un navegador web, nos dirigimos a localhost:8080 y veremos nuestro sitio web completo.
 
 * Configuración avanzada con =org-publish=
 Una de las ventajas de usar =org-publish= es que permite configurar opciones de exportación que se aplican de forma consistente a todos las páginas del sitio web. Esto es fabuloso porque, si queremos cambiar algún aspecto de esta configuración, sólo tenemos que hacerlo en la definición del proyecto y no en cada uno de los archivos que componen el sitio web. La siguiente definición, por ejemplo, publica todas las páginas de nuestro sitio web sin tabla de contenido, sin especificar que se creó con Emacs, sin numeración de secciones, y sin fecha y hora de creación. 
@@ -85,7 +85,7 @@ Una de las ventajas de usar =org-publish= es que permite configurar opciones de 
            (list "verborrea"
                  :recursive t
                  :base-directory "/ruta/a/carpeta/contenido"
-                 :publishing-directory "/ruta/a/carpeta/publico"
+                 :publishing-directory "/ruta/a/carpeta/docs"
                  :publishing-function 'org-html-publish-to-html
                  :with-author nil
                  :with-creator t
@@ -98,18 +98,21 @@ Sin embargo, a este punto, resulta inconveniente tener la definición del proyec
 
 #+begin_src emacs-lisp 
   ((nil . ((eval . (setq org-publish-project-alist
-                         (list (list "verborrea"
-                                     :recursive t
-                                     :base-directory (concat (projectile-project-root) "contenido")
-                                     :publishing-directory (concat (projectile-project-root) "publico")
-                                     :publishing-function 'org-html-publish-to-html
-                                     :with-author nil
-                                     :with-creator t
-                                     :with-toc t 
-                                     :section-numbers nil)))))))
+                         (list
+                          (list "verborrea"
+                                :recursive t
+                                :base-directory (concat (projectile-project-root) "contenido")
+                                :publishing-directory (concat (projectile-project-root) "docs")
+                                :publishing-function 'org-html-publish-to-html
+                                :with-author nil
+                                :with-creator t
+                                :with-toc t 
+                                :section-numbers nil)))))))
 #+end_src
 
-Ahora, siempre que ejecutemos =M-x org-publish-all= desde un /buffer/ que apunte a cualquier archivo dentro de la carpeta de nuestro sitio web, se generará nuestro sitio web. Esto trae la ventaja de que ahora la configuración de exportación es parte de nuestro proyecto. Siendo así, si queremos gestionarlo con cualquier sistema de versionamiento (e.g. git), también incluiremos esta definición. Un punto importante a notar es que la forma de definición de carpetas para contenido y publicación depende de [[https://projectile.mx/][=projectile=]], lo que implica que nuestro proyecto debe (a) estar en un repositorio de versionamiento como git o (b) tener un archivo =.projectile= (que puede estar vacío) en su carpeta raíz. Se podría poner la ruta completa a las carpetas de contenido y publicación, pero hacerlo con =projectile= garantiza que podamos mover la carpeta del proyecto sin necesidad de actualizar esta configuración; desacoplamos la exportación del proyecto de nuestra estructura de carpetas.
+Ahora, siempre que ejecutemos =M-x org-publish-all= desde un /buffer/ que apunte a cualquier archivo dentro de la carpeta de nuestro proyecto, se generará nuestro sitio web. 
+
+En adición, esto trae la ventaja de que ahora la configuración de exportación es parte de nuestro proyecto. Siendo así, si queremos gestionarlo con cualquier sistema de versionamiento (e.g. git), también incluiremos esta definición. Un punto importante a notar es que la forma de definición de carpetas para contenido y publicación depende de [[https://projectile.mx/][=projectile=]], lo que implica que nuestro proyecto debe (a) estar en un repositorio de versionamiento como git o (b) tener un archivo =.projectile= (que puede estar vacío) en su carpeta raíz. Se podría poner la ruta completa a las carpetas de contenido y publicación, pero hacerlo con =projectile= garantiza que podamos mover la carpeta del proyecto sin necesidad de actualizar esta configuración; desacoplamos la exportación del proyecto de nuestra estructura de carpetas.
 
 Con esto, nuestra carpeta raíz se ve así:
 
@@ -118,11 +121,11 @@ Con esto, nuestra carpeta raíz se ve así:
   mkdir tempPublicar
   cd tempPublicar
   mkdir contenido
-  mkdir publico
+  mkdir docs
   touch ./contenido/index.org
   touch .git
   touch .dir-locals.el
-  touch ./publico/index.html
+  touch ./docs/index.html
   tree -a
 #+end_src
 
@@ -134,48 +137,56 @@ Las opciones de configuración de proyecto de =org-publish= son muchas y están 
 #+end_src
 
 * Mejorando el aspecto visual
-Si usted ya generó sus primeras páginas con esta configuración, notará que es muy básica y de (muy) "vieja escuela". Para mejorar esto sin necesidad de conocimientos o trabajo en =CSS= o =js=, podemos apoyarnos en plantillas de estilo pre-definidas como [[https://simplecss.org/][Simple.css]] o [[https://github.com/fniessen/org-html-themes][ReadTheOrg]]. Para esto, sólo tenemos que incluir la información necesaria de cada uno de estas plantillas en nuestra configuración de proyecto. Esto, y algunas otras mejoras, se configuran en los siguientes bloques ejemplos.
+Si usted ya generó sus primeras páginas con esta configuración, notará que es muy básica y de (muy) "vieja escuela". Para mejorar esto sin necesidad de conocimientos o trabajo en =CSS= o =js=, podemos apoyarnos en plantillas de estilo pre-definidas como [[https://simplecss.org/][Simple.css]] o [[https://github.com/fniessen/org-html-themes][ReadTheOrg]]. Para esto, sólo tenemos que incluir la información necesaria de cada uno de estas plantillas en nuestra configuración de proyecto. Esto, y algunas otras mejoras, se configuran en los siguientes bloques.
 
 Para Simple.css:
 
 #+begin_src emacs-lisp
- ((nil . ((eval . (setq org-publish-project-alist (list (list "verborrea"
-						:recursive t
-						:base-directory (concat (projectile-project-root) "contenido")
-						:publishing-directory (concat (projectile-project-root) "publico")
-						:publishing-function 'org-html-publish-to-html
-						:with-author t
-						:with-creator t
-						:with-toc nil
-						:time-stamp-file nil
-						:html-validation-link nil
-						:html-link-home "index.html"
-						:html-head-include-default-style nil
-						:html-head-include-scripts nil
-						:html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />"
-						:section-numbers nil)))))))
- 
+  ((nil . ((eval . (setq org-publish-project-alist 
+                         (list
+                          (list "verborrea"
+                                :recursive t
+                                :base-directory (concat (projectile-project-root) "contenido")
+                                :publishing-directory (concat (projectile-project-root) "docs")
+                                :publishing-function 'org-html-publish-to-html
+                                :with-author t
+                                :with-creator t
+                                :with-toc nil
+                                :time-stamp-file nil
+                                :html-validation-link nil
+                                :html-link-home "index.html"
+                                :html-head-include-default-style nil
+                                :html-head-include-scripts nil
+                                :html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />"
+                                :section-numbers nil)))))))
+
 #+end_src 
 
 Para ReadTheOrg:
 
 #+begin_src emacs-lisp 
-((nil . ((eval . (setq org-publish-project-alist (list (list "verborrea"
-						:recursive t
-						:base-directory (concat (projectile-project-root) "contenido")
-						:publishing-directory (concat (projectile-project-root) "publico")
-						:publishing-function 'org-html-publish-to-html
-						:with-author t
-						:with-creator t
-						:with-toc t
-						:time-stamp-file nil
-						:html-validation-link nil
-						:html-link-home "index.html"
-						:html-head-include-default-style nil
-						:html-head-include-scripts nil
-						:html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css\"/>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css\"/><script src=\"https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js\"></script><script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js\"></script><script type=\"text/javascript\" src=\"https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js\"></script><script type=\"text/javascript\" src=\"https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js\"></script>"
-						:section-numbers nil)))))))
+  ((nil . ((eval . (setq org-publish-project-alist
+                         (list
+                          (list "verborrea"
+                                :recursive t
+                                :base-directory (concat (projectile-project-root) "contenido")
+                                :publishing-directory (concat (projectile-project-root) "docs")
+                                :publishing-function 'org-html-publish-to-html
+                                :with-author t
+                                :with-creator t
+                                :with-toc t
+                                :time-stamp-file nil
+                                :html-validation-link nil
+                                :html-link-home "index.html"
+                                :html-head-include-default-style nil
+                                :html-head-include-scripts nil
+                                :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css\"/>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css\"/><script src=\"https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js\"></script><script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js\"></script><script type=\"text/javascript\" src=\"https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js\"></script><script type=\"text/javascript\" src=\"https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js\"></script>"
+                                :section-numbers nil)))))))
 #+end_src
 
 * Cierre
-Ya está. Ya puede crear un sitio web básico y con buen diseño web sin mayores conocimientos en =html=, =css=, o =js=. La forma más fácil de publicar esto es usando el servicio de github.io.
+Ya está. Ya puede crear un sitio web básico y con buen diseño web sin mayores conocimientos en =html=, =css=, o =js=. La forma más fácil de publicar esto es usando el servicio de http://github.io, pero eso está por fuera del objetivo de esta nota.
+
+* Footnotes
+
+[fn:1] Esta carpeta puede tener cualquier nombre, pero nombrarla =docs= facilitará la publicación en http://github.io. 
