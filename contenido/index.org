@@ -6,3 +6,4 @@ Bienvenido a Verborrea, un espacio en donde redondeo y descargo mis ideas para l
 
 Notas:
 + [[file:publicarConEmacs.org][Cómo publicar sitios web estáticos con Emacs]]
++ [[file:publicarMatematicasConEmacs.org][Cómo publicar páginas web con fórmulas matemáticas en Emacs]]
