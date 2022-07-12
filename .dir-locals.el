@@ -4,6 +4,7 @@
 						:publishing-directory (concat (projectile-project-root) "docs")
 						:publishing-function 'org-html-publish-to-html
 						:with-author t
+						:language "es"
 						:with-creator t
 						:with-toc nil
 						:time-stamp-file nil
