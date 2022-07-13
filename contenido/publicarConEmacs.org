@@ -1,11 +1,14 @@
+# -*- eval: (setq org-babel-default-header-args:latex '((:results . "file raw") (:exports . "results") (:border . "0cm") (:headers . "\\usepackage{tikz} \\usetikzlibrary{positioning, shapes.symbols") (:imagemagick . "t"))) -*-
 #+title: Cómo publicar sitios web estáticos con Emacs
 #+author: Juan E. Gómez-Morantes
 #+date: 2022:07:10
 
+#+html_mathjax: autonumber: all
+
 * Introducción 
 Esta nota muestra cómo crear un sitio web estático usando Emacs que pueda ser publicado en servicios como [[http://github.io]].
 
-Está inspirado y basado en una [[https://systemcrafters.net/publishing-websites-with-org-mode/building-the-site/][guía similar]] desarrollada por David Wilson y hace constante referencia a los manuales de Emacs y Orgmode.
+Está inspirado y basado en una [[https://systemcrafters.net/publishing-websites-with-org-mode/building-the-site/][guía similar]] desarrollada por David Wilson y hace constante referencia a los manuales de Emacs y =org-mode=.
 
 * ¿Por qué un sitio web estático?
 Cualquiera que esté pensando en publicar un sitio web sencillo pensaría en primera instancia en usar en servicio de publicación como wordpress.com o blogger.com. Sin embargo, estos servicios, a mi parecer, se pueden convertir rápidamente en una camisa de fuerza que nos impida hacer cosas que queremos hacer (como controlar completamente el CSS de nuestro sitio), o que nos obligue a hacer cosas que no queremos hacer (como mostrar publicidad o vulnerar la privacidad de nuestros lectores). En adición, el valor agregado es muy poco si lo que queremos hacer es un sitio sencillo y sin contenido activo o interactivo.
@@ -131,11 +134,6 @@ Con esto, nuestra carpeta raíz se ve así:
 
 Las opciones de configuración de proyecto de =org-publish= son muchas y están cubiertas en su respectivo [[https://orgmode.org/manual/Publishing.html][manual]].
 
-#+begin_src sh :results output :exports results :eval yes
-  # El presente bloque está para eliminar de forma silenciosa la capeta tempora de publicación y evitar problemas con M-x org-publish
-  rm -rf tempPublicar 
-#+end_src
-
 * Mejorando el aspecto visual
 Si usted ya generó sus primeras páginas con esta configuración, notará que es muy básica y de (muy) "vieja escuela". Para mejorar esto sin necesidad de conocimientos o trabajo en =CSS= o =js=, podemos apoyarnos en plantillas de estilo pre-definidas como [[https://simplecss.org/][Simple.css]] o [[https://github.com/fniessen/org-html-themes][ReadTheOrg]]. Para esto, sólo tenemos que incluir la información necesaria de cada uno de estas plantillas en nuestra configuración de proyecto. Esto, y algunas otras mejoras, se configuran en los siguientes bloques.
 
@@ -184,9 +182,251 @@ Para ReadTheOrg:
                                 :section-numbers nil)))))))
 #+end_src
 
+* Inclusión de imágenes
+
+** Imágenes desde archivos
+El primer tipo de imágenes que vamos a incluir son imágenes desde archivos multimedia como archivos =.jpg= o =.png=. Estas imágenes son fáciles de manejar ya que lo único que tenemos que hacer es ubicarlas en una carpeta que esté dentro de la carpeta en donde tenemos los archivos =.org= a partir de los cuales se genera nuestro sitio web, y crear un enlace apuntando a la imagen. Por ejemplo, en la siguiente estructura de archivos:
+
+#+begin_src sh :results output :exports results :eval yes
+  rm -rf tempPublicar
+  mkdir tempPublicar
+  cd tempPublicar
+  mkdir contenido
+  mkdir docs
+  mkdir contenido/media
+  touch ./contenido/index.org
+  touch ./contenido/media/nasa.jpg
+  tree
+#+end_src
+
+el enlace:
+
+#+begin_src org
+[[file:media/nasa.jpg]]
+#+end_src
+
+Nos mostrará la siguiente imagen. 
+
+[[file:media/nasa.jpg]]
+
+Para que esto funcione y sea fácil de exportar, tenemos que completar un poco nuestra configuración de =org-publish-project-alist= en el archivo =.dir-locals.el= para que quede de esta forma:
+
+#+begin_src emacs-lisp
+  ((nil . ((eval . (setq org-publish-project-alist
+                         (list
+                          (list "verborrea-org"
+                                :recursive t
+                                :base-directory (concat (projectile-project-root) "contenido")
+                                :publishing-directory (concat (projectile-project-root) "docs")
+                                :publishing-function 'org-html-publish-to-html
+                                :with-author t
+                                :with-creator t
+                                :with-toc nil
+                                :time-stamp-file nil
+                                :html-validation-link nil
+                                :html-link-home "index.html"
+                                :html-head-include-default-style nil
+                                :html-head-include-scripts nil
+                                :html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />"
+                                :section-numbers nil)
+                          (list "verborrea-img"
+                                :base-directory (concat (projectile-project-root) "contenido/media")
+                                :base-extension "png\\|jpg\\|gif"
+                                :publishing-function 'org-publish-attachment
+                                :publishing-directory (concat (projectile-project-root) "docs/media"))
+                          (list "verborrea"
+                                :components '("verborrea-org" "verborrea-img"))))))))
+#+end_src 
+
+Lo que hicimos acá fue crear dos registro nuevos; uno para la carpeta de imágenes de nuestro sitio web y otro para el proyecto completo. El registro para la carpeta de imágenes define la carpeta fuente y la carpeta destino de las imágenes, y usa =org-publish-attachment= como función de publicación. Esto lo que hace es simplemente copiar los archivos que coincidan con el filtro definido en =base-extensions= desde la carpeta fuente a la carpeta destino. 
+
+Nuestra carpeta de proyecto se verá así luego de llamar =M-x org-publish-all=:
+#+begin_src emacs-lisp :tangle no :exports results :eval yes
+  (let ((org-publish-project-alist
+         (list
+          (list "prueba-org"
+                :recursive t
+                :base-directory "./tempPublicar/contenido"
+                :publishing-directory "./tempPublicar/docs"
+                :publishing-function 'org-html-publish-to-html)
+          (list "prueba-img"
+                :base-directory "./tempPublicar/contenido/media"
+                :base-extension "png\\|jpg\\|gif"
+                :publishing-function 'org-publish-attachment
+                :publishing-directory "./tempPublicar/docs/media")
+          (list "prueba"
+                :components '("prueba-org" "prueba-img")))))
+    (org-publish-all t))
+#+end_src
+
+#+begin_src sh :results output :exports results :eval yes
+  cd tempPublicar
+  tree
+#+end_src
+
+Un punto molesto es que hacerlo así implica duplicar nuestras imágenes, lo que consume más espacio en disco. Sin embargo, hacerlo de otra forma puede acarrear problemas con las rutas de los enlaces y que las imágenes no se muestren bien al generar nuestro sitio web. Por ahora, es lo mejor que podemos hacer. 
+
+** Imágenes desde URLs
+Las imágenes desde URLs son más fáciles de menejar. Lo único que tenemos que hacer es crear un enlace al URL y listo. Por ejemplo, el siguiente enlace:
+
+#+begin_src org
+https://www.nasa.gov/sites/default/files/thumbnails/image/main_image_deep_field_smacs0723-5mb.jpg
+#+end_src
+
+Nos muestra la siguiente imagen:
+
+https://www.nasa.gov/sites/default/files/thumbnails/image/main_image_deep_field_smacs0723-5mb.jpg
+
+** Gráficas de Tikz
+[[https://tikz.dev/][=Tikz=]] es un paquete de LaTex que permite crear diagramas y gráficas complejas con un lenguaje de marcado. Es muy utilizado en documentos técnicos y publicaciones académicas. Si bien tiene una curva de aprendizaje alta, hay que cosas que serían mucho más complejas de hacer de cualquier otra forma. En adición, al ser un lenguaje de marcado, la modificación de las imágenes es simple. 
+
+=org-mode= y =bable= tienen soporte nativo para LaTex, lo que nos permite incluir bloques de código LaTex (con una imagen =tikz=) y mostrar el resultado como imagen. Sin embargo, para lograrlo tenemos que tener instalado el paquete =imagemagick= en nuestros computadores. Esta instalación depende de su sistema operativo, así que no será cubierta en esta nota. En adición, hay que activar LaTex en =babel= incluyendo el siguiente código en nuestra configuración de Emacs:
+
+#+begin_src emacs-lisp 
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               (append org-babel-load-languages
+                                       '((latex . t))))
+#+end_src
+
+Ya podemos incluir bloques de código LaTex, incluyendo figuras Tikz, como se muestra a continuación
+
+#+begin_example
+#+name: tutorial
+#+header: :exports results :file media/test.png
+#+header: :results file raw :border 0cm
+#+header: :imagemagick t
+#+header: :headers '("\\usepackage{tikz} \\usetikzlibrary{positioning, shapes.symbols, calc}")
+#+begin_src latex
+  \begin{tikzpicture}
+    \fill[blue!40!red] (0,0) rectangle (1,1);
+  \end{tikzpicture}
+#+end_src
+#+end_example
+
+#+name: tutorial
+#+header: :file media/test.png
+#+begin_src latex
+  \begin{tikzpicture}
+    \fill[blue!40!red] (0,0) rectangle (1,1);
+  \end{tikzpicture}
+#+end_src
+
+Este bloque de código tiene muchas etiquetas de configuración, que explicaremos a continuación.
+
++ =#+name:= es el nombre de la figura. No tiene mayor efecto en generación de archivos html. 
++ =#+header:= son los parámetros usados al momento de ejecutar el código LaTex.
+  - =:exports results= nos dice que se va a exportar el resultado de ejecutar el bloque de código pero no el código. Otras opciones para este parámetro son =none= para no exportar ni código ni resultado, =code= para exportar el código, o =both= para exportar código y resultado de ejecución.
+  - =:file= es la ruta en donde se va a guardar la imagen generada. Dada la configuración que hemos realizado con =org-publish-project-alist=, estas imágenes deben guardarse en la carpeta =contenido/media=.
+  - =:results file raw= indica que el contenido es un enlace a archivo y se debe mostrar sin encerrarse en ningún bloque específico. Otras opciones para este parámetro se encuentran en el [[https://orgmode.org/manual/Results-of-Evaluation.html][manual de org-mode]], aunque no son muy relevantes para lo que estamos haciendo.
+  - =:border 0cm= indica que la figura no debe tener ningún borde
+  - =:imagemagick t= se usa cuando queremos exportar a formatos distintos a =.pdf=. Es necesario para publicación de sitos web.
+  - =:headers= es una lista en donde se especifica el preámbulo de LaTex para la ejecución del código. Es necesario incluir los paquetes de LaTex que se van a utilizar (no olvidar =tikz=) y las librerías de Tikz que necesitemos.
+  - Existen otras opciones descritas en el [[https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-LaTeX.html][manual de org-mode]].
+
+Si vamos a utilizar muchas imágenes de Tikz en el mismo documento, podemos factorizar esta definición personalizando la variable =org-babel-default-header-args:latex= con los valores por defecto de la equiteta =#+header=. Esto se puede hacer para carpetas completas con la respectiva definición en =.dir-locals.el= o por archivo incluyendo la siguiente línea *como primera línea del archivo =.org=*:
+
+#+begin_example
+# -*- eval: (setq org-babel-default-header-args:latex '((:results . "file raw") (:exports . "results") (:border . "0cm") (:headers . "\\usepackage{tikz} \\usetikzlibrary{positioning, shapes.symbols") (:imagemagick . "t"))) -*-
+#+end_example
+
+Con esta configuración, nuestro bloque de código ahora se verá así:
+#+begin_example
+#+name: tutorial
+#+header: :file media/test.png
+#+begin_src latex
+  \begin{tikzpicture}
+    \fill[blue!40!red] (0,0) rectangle (1,1);
+  \end{tikzpicture}
+#+end_src
+#+end_example
+
+Con esto se aplicarán todas las opciones incluidas en el código anterior a todas los bloques de LaTex que se incluyan en nuestro archivo =.org=. Si para algún caso específico requerimos modificar algún parámetro en específico, sólo tenemos que agregarla al bloque y este valor tendrá presencia sobre los definidos en =org-babel-default-header-args:latex=. 
+
+** Parámetros de imágenes
+Algunas plantilla de css ayudan mucho a controlar el aspecto visual de las imágenes. [[https://simplecss.org/][Simple.css]], por ejemplo, controla el tamaño máximo de las imágenes que son demasiado grandes. Sin embargo, si queremos tener un control más preciso de las imágenes, o si no usamos un plantilla de css con estas capacidades, podemos usar la etiqueta =#+attr_html:= encima del enlace a nuestra imagen de la siguiente forma:
+
+#+begin_example
+#+attr_html: :width 10% :title Título de la imagen :parametro valor
+[[file:media/nasa.jpg]]
+#+end_example
+
+Esto nos mostrará lo siguiente:
+
+#+attr_html: :width 10% :title Título de la imagen :parametro valor
+[[file:media/nasa.jpg]]
+
+Con esto se pueden establecer parámetros como el tamaño o el título de la imagen, pero también se puede definir cualquier parámetro como de html como se ve al final de la línea =#+attr_html= del ejemplo anterior.
+
+Si queremos tener este tipo de control con imágenes o gráficas generadas por Tikz, tenemos que definirla con =:exports none= y crear un enlace normal a la imagen producida.
+
+* Inclusión de formulas matemáticas
+** Dos métodos para mostrar contenido matemático
+El [[https://orgmode.org/manual/Math-formatting-in-HTML-export.html][manual de =org-mode=]] nos habla de dos formas de mostrar contenido matemático: procesar fórmulas en formato TeX y convertirlas a imágenes, o usar [[https://www.mathjax.org/][MathJax]]. Si bien el método de las imágenes es efectivo, tiene problemas con la ubicación de las imágenes y no tiene tantas funcionalidades como MathJax. Siendo así, esta nota se centrará en el uso de MathJax.
+
+** Formulas en línea
+El primer tipo de fórmulas que vamos a ver son fórmulas en línea. Estas son fórmulas que fluyen con el texto como \(x²+y²=0\). Éstas se logran poniendo la fórmula (en sintaxis LaTex) entre los delimitadores =\( \)= dentro de un párrafo. Podría también usarse los delimitadores =$ $=, pero el manual de MathJax no lo recomienda ya que el símbolo =$= puede usarse para otros fines dentro de un texto y esto puede generar errores a la hora de mostrar el contenido.
+
+** Formulas independientes
+Para formulas que queramos tener independientes o numeradas, se deben usar los delimitadores =$$ $$=. Por ejemplo, la siguiente línea
+
+#+begin_example
+$$x+1\over\sqrt{1-x^2}\label{ref1}$$
+#+end_example
+
+Nos genera la siguiente ecuación:
+
+$$x+1\over\sqrt{1-x^2}\label{ref1}$$
+
+*** Numeración
+Es importante anotar que Emacs no numera las ecuaciones por defecto. Para obtener esta numeración tenemos que activarla agregando la siguiente línea al inicio del archivo =.org= a exportar:
+
+#+begin_example
+#+html_mathjax: autonumber: all
+#+end_example
+
+También podemos personalizar la variable =org-html-mathjax-options= si queremos que esto aplique para todos los archivos que exportemos. Finalmente, también podemos agregarla a nuestro archivo =.dir-locals.el= si queremos que aplique para todos los archivos de nuestro proyecto, pero sin que se tenga en cuenta para archivos por fuera de éste.
+
+Si por algún motivo queremos queremos hacer referencia a la primera ecuación \ref{ref1}, lo podemos hacer usando:
+
+#+begin_example
+\ref{ref1}
+#+end_example
+
+Ahora, si por algún motivo queremos incluir una fórmula sin numeración, tenemos que agregar =\nonumber al final de la fórmula: 
+
+#+begin_example
+$$x+1\over\sqrt{1-x^2}\nonumber$$
+#+end_example
+
+$$x+1\over\sqrt{1-x^2}\nonumber$$
+
+*** Ambientes LaTex
+Una de las mejores funcionalidades de MathJax es que permite la inclusión de ambientes de ecuaciones de LaTex. Por ejemplo, el siguiente código en un archivo =.org=
+
+#+begin_example
+\begin{align} 
+x& = y_1-y_2+y_3-y_5+y_8-\dots && \text{por \eqref{ref1}}\\ 
+& = y'\circ y^* && \text{por definición}\\ 
+& = y(0) y' && \text {por Axioma 1.} 
+\end{align} 
+#+end_example
+
+Produce:
+
+\begin{align} 
+x& = y_1-y_2+y_3-y_5+y_8-\dots && \text{por \eqref{ref1}}\\ 
+& = y'\circ y^* && \text{por definición}\\ 
+& = y(0) y' && \text {por Axioma 1.} 
+\end{align} 
+
+Como ven, las posibilidades de exportar contenido matemático con MathJax son muchas gracias al soporte que tiene de ambientes matemáticos LaTex. El [[http://docs.mathjax.org/en/latest/index.html][manual de MathJax]] ofrece mucha más información como extensiones y opciones de interacción.
 * Cierre
 Ya está. Ya puede crear un sitio web básico y con buen diseño web sin mayores conocimientos en =html=, =css=, o =js=. La forma más fácil de publicar esto es usando el servicio de http://github.io, pero eso está por fuera del objetivo de esta nota.
 
+#+begin_src sh :results output :exports results :eval yes
+  # El presente bloque está para eliminar de forma silenciosa la capeta tempora de publicación y evitar problemas con M-x org-publish
+  rm -rf tempPublicar 
+#+end_src
 * Footnotes
 
 [fn:1] Esta carpeta puede tener cualquier nombre, pero nombrarla =docs= facilitará la publicación en http://github.io. 

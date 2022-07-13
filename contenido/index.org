@@ -2,8 +2,7 @@
 #+author: Juan E. Gómez-Morantes
 #+date: 2022:07:09
 
-Bienvenido a Verborrea, un espacio en donde redondeo y descargo mis ideas para liberar un poco mi cerebro. T
+Bienvenido a Verborrea, un espacio en donde redondeo y descargo mis ideas para liberar un poco mi cerebro.
 
 Notas:
 + [[file:publicarConEmacs.org][Cómo publicar sitios web estáticos con Emacs]]
-+ [[file:publicarMatematicasConEmacs.org][Cómo publicar páginas web con fórmulas matemáticas en Emacs]]
