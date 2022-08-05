@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cómo bloquear sitios web en NixOS</title>
+<meta name="author" content="Juan E. Gómez-Morantes" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="content" class="content">
+<header>
+<h1 class="title">Cómo bloquear sitios web en NixOS</h1>
+</header><p>
+Todos hemos estado ahí. Mañanas o tardes enteras perdidos en sitios web mientras nuestro trabajo y áreas de responsabilidad nos miran desde lejos con lástima y decepción en los ojos.
+</p>
+
+<p>
+Cuando la fuerza de voluntad no es suficiente para frenarnos, es tiempo de usar la fuerza bruta. Es tiempo de bloquear, a nivel de sistema, los sitios web que drenan nuestra atención.
+</p>
+
+<p>
+Para esto, vamos a editar (con permisos de administrador) el archivo <code>/etc/hosts</code> de nuestro sistema agregando una línea como la siguiente
+</p>
+
+<div class="org-src-container">
+<pre class="src src-config">127.0.0.1 www.reddit.com
+</pre>
+</div>
+
+<p>
+Luego de guardar y cerrar el archivo y esperar un rato, una visita a <code>www.reddit.com</code>, desde cualquier navegador web, nos arrojará un error de conexión.
+</p>
+
+<p>
+Ahora, para hacerlo con NixOS, podemos configurar la opción <code>networking.extraHosts</code> en nuestro <code>configuration.nix</code> de la siguiente forma:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nix">networking.extraHosts = ''
+  127.0.0.1 www.reddit.com
+  127.0.0.1 www.facebook.com
+  127.0.0.1 www.instagram.com
+  127.0.0.1 www.netflix.com
+'';
+</pre>
+</div>
+
+<p>
+En caso de <b>realmente</b> requerir el ingreso a esos sitios web, tendrás que por lo menos pasar por la vergüenza de editar, a mano, el archivo <code>/etc/hosts</code> para quitar la restricción. Esto, incluso en NixOS, implica que tendremos que volver a agregar la restricción de forma manual (o correr <code>sudo nixos-rebuild switch</code>) para volverla a activar.
+</p>
+</div>
+<div id="postamble" class="status">
+<p class="date">Fecha: 2022:08:05</p>
+<p class="author">Autor: Juan E. Gómez-Morantes</p>
+<p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.1 (<a href="https://orgmode.org">Org</a> mode 9.5.2)</p>
+</div>
+</body>
+</html>

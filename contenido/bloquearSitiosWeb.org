@@ -1,0 +1,28 @@
+#+title: Cómo bloquear sitios web en NixOS
+#+author: Juan E. Gómez-Morantes
+#+date: 2022:08:05
+
+Todos hemos estado ahí. Mañanas o tardes enteras perdidos en sitios web mientras nuestro trabajo y áreas de responsabilidad nos miran desde lejos con lástima y decepción en los ojos.
+
+Cuando la fuerza de voluntad no es suficiente para frenarnos, es tiempo de usar la fuerza bruta. Es tiempo de bloquear, a nivel de sistema, los sitios web que drenan nuestra atención.
+
+Para esto, vamos a editar (con permisos de administrador) el archivo =/etc/hosts= de nuestro sistema agregando una línea como la siguiente
+
+#+begin_src config
+127.0.0.1 www.reddit.com
+#+end_src
+
+Luego de guardar y cerrar el archivo y esperar un rato, una visita a =www.reddit.com=, desde cualquier navegador web, nos arrojará un error de conexión.
+
+Ahora, para hacerlo con NixOS, podemos configurar la opción =networking.extraHosts= en nuestro =configuration.nix= de la siguiente forma:
+
+#+begin_src nix 
+networking.extraHosts = ''
+  127.0.0.1 www.reddit.com
+  127.0.0.1 www.facebook.com
+  127.0.0.1 www.instagram.com
+  127.0.0.1 www.netflix.com
+'';
+#+end_src
+
+En caso de *realmente* requerir el ingreso a esos sitios web, tendrás que por lo menos pasar por la vergüenza de editar, a mano, el archivo =/etc/hosts= para quitar la restricción. Esto, incluso en NixOS, implica que tendremos que volver a agregar la restricción de forma manual (o correr =sudo nixos-rebuild switch=) para volverla a activar.
