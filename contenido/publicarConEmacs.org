@@ -280,7 +280,7 @@ https://www.nasa.gov/sites/default/files/thumbnails/image/main_image_deep_field_
 ** Gráficas de Tikz
 [[https://tikz.dev/][=Tikz=]] es un paquete de LaTex que permite crear diagramas y gráficas complejas con un lenguaje de marcado. Es muy utilizado en documentos técnicos y publicaciones académicas. Si bien tiene una curva de aprendizaje alta, hay que cosas que serían mucho más complejas de hacer de cualquier otra forma. En adición, al ser un lenguaje de marcado, la modificación de las imágenes es simple. 
 
-=org-mode= y =bable= tienen soporte nativo para LaTex, lo que nos permite incluir bloques de código LaTex (con una imagen =tikz=) y mostrar el resultado como imagen. Sin embargo, para lograrlo tenemos que tener instalado el paquete =imagemagick= en nuestros computadores. Esta instalación depende de su sistema operativo, así que no será cubierta en esta nota. En adición, hay que activar LaTex en =babel= incluyendo el siguiente código en nuestra configuración de Emacs:
+=org-mode= y =babel= tienen soporte nativo para LaTex, lo que nos permite incluir bloques de código LaTex (con una imagen =tikz=) y mostrar el resultado como imagen. Sin embargo, para lograrlo tenemos que tener instalado el paquete =imagemagick= en nuestros computadores. Esta instalación depende de su sistema operativo, así que no será cubierta en esta nota. En adición, hay que activar LaTex en =babel= incluyendo el siguiente código en nuestra configuración de Emacs:
 
 #+begin_src emacs-lisp 
   (org-babel-do-load-languages 'org-babel-load-languages
@@ -318,7 +318,7 @@ Este bloque de código tiene muchas etiquetas de configuración, que explicaremo
   - =:exports results= nos dice que se va a exportar el resultado de ejecutar el bloque de código pero no el código. Otras opciones para este parámetro son =none= para no exportar ni código ni resultado, =code= para exportar el código, o =both= para exportar código y resultado de ejecución.
   - =:file= es la ruta en donde se va a guardar la imagen generada. Dada la configuración que hemos realizado con =org-publish-project-alist=, estas imágenes deben guardarse en la carpeta =contenido/media=.
   - =:results file raw= indica que el contenido es un enlace a archivo y se debe mostrar sin encerrarse en ningún bloque específico. Otras opciones para este parámetro se encuentran en el [[https://orgmode.org/manual/Results-of-Evaluation.html][manual de org-mode]], aunque no son muy relevantes para lo que estamos haciendo.
-  - =:border 0cm= indica que la figura no debe tener ningún borde
+  - =:border 0cm= indica que la figura no debe tener ningún borde.
   - =:imagemagick t= se usa cuando queremos exportar a formatos distintos a =.pdf=. Es necesario para publicación de sitos web.
   - =:headers= es una lista en donde se especifica el preámbulo de LaTex para la ejecución del código. Es necesario incluir los paquetes de LaTex que se van a utilizar (no olvidar =tikz=) y las librerías de Tikz que necesitemos.
   - Existen otras opciones descritas en el [[https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-LaTeX.html][manual de org-mode]].
@@ -340,7 +340,7 @@ Con esta configuración, nuestro bloque de código ahora se verá así:
 #+end_src
 #+end_example
 
-Con esto se aplicarán todas las opciones incluidas en el código anterior a todas los bloques de LaTex que se incluyan en nuestro archivo =.org=. Si para algún caso específico requerimos modificar algún parámetro en específico, sólo tenemos que agregarla al bloque y este valor tendrá presencia sobre los definidos en =org-babel-default-header-args:latex=. 
+Con esto se aplicarán todas las opciones incluidas en el código anterior a todas los bloques de LaTex que se incluyan en nuestro archivo =.org=. Si para algún caso específico requerimos modificar algún parámetro en específico, sólo tenemos que agregarla al bloque y este valor tendrá precedencia sobre los definidos en =org-babel-default-header-args:latex=. 
 
 ** Parámetros de imágenes
 Algunas plantilla de css ayudan mucho a controlar el aspecto visual de las imágenes. [[https://simplecss.org/][Simple.css]], por ejemplo, controla el tamaño máximo de las imágenes que son demasiado grandes. Sin embargo, si queremos tener un control más preciso de las imágenes, o si no usamos un plantilla de css con estas capacidades, podemos usar la etiqueta =#+attr_html:= encima del enlace a nuestra imagen de la siguiente forma:
@@ -355,9 +355,41 @@ Esto nos mostrará lo siguiente:
 #+attr_html: :width 10% :title Título de la imagen :parametro valor
 [[file:media/nasa.jpg]]
 
-Con esto se pueden establecer parámetros como el tamaño o el título de la imagen, pero también se puede definir cualquier parámetro como de html como se ve al final de la línea =#+attr_html= del ejemplo anterior.
+Con esto se pueden establecer parámetros como el tamaño o el título de la imagen, pero también se puede definir cualquier parámetro de html como se ve al final de la línea =#+attr_html= del ejemplo anterior.
 
 Si queremos tener este tipo de control con imágenes o gráficas generadas por Tikz, tenemos que definirla con =:exports none= y crear un enlace normal a la imagen producida.
+
+Finalmente, agregando la línea =#+caption: Descripción de la imagen= sobre cualquiera de nuestras imágenes, obtendremos un etiquetado de nuestras imágenes con numeración automática. Sin embargo, la forma en la que =org-mode= exporta esto es algo rudimentaria y no hace uso de elementos HTML5 como las etiquetas =figure= y =figcaption=. Para resolverlo, tenemos que personalizar las variables =org-html-html5-fancy= y =org-html-doctype=. Esto se puede hacer en nuestra definición de =org-publish-project-alist= de la siguiente forma:
+
+#+begin_src emacs-lisp
+  ((nil . ((eval . (setq org-publish-project-alist 
+                         (list
+                          (list "verborrea"
+                                :recursive t
+                                :base-directory (concat (projectile-project-root) "contenido")
+                                :publishing-directory (concat (projectile-project-root) "docs")
+                                :publishing-function 'org-html-publish-to-html
+                                :with-author t
+                                :with-creator t
+                                :with-toc nil
+                                :time-stamp-file nil
+                                :html-validation-link nil
+                                :html-link-home "index.html"
+                                :html-head-include-default-style nil
+                                :html-head-include-scripts nil
+                                :html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />"
+                                :section-numbers nil
+                                :language "es"
+                                :html-html5-fancy t
+                                :html-doctype "html5")))))))
+#+end_src 
+
+Note que no sólo establecimos valores para =html-html5-fancy= y =html-doctype=, sino que también definimos el lenguaje como =es= para que se usen nombres en español para los rótulos de las imágenes.
+
+Ahora, el siguiente bloque nos muestra imágenes con descripción usando la etiqueta =figcaption= de HTML5:
+
+#+caption: Créditos: NASA, ESA, CSA, y STScI.  Tomada de https://www.nasa.gov/webbfirstimages
+[[file:media/nasa.jpg]]
 
 * Inclusión de formulas matemáticas
 ** Dos métodos para mostrar contenido matemático

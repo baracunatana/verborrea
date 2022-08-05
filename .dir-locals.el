@@ -11,6 +11,8 @@
 			      :with-toc nil
 			      :time-stamp-file nil
 			      :html-validation-link nil
+			      :html-html5-fancy t
+			      :html-doctype "html5"
 			      :html-link-home "index.html"
 			      :html-head-include-default-style nil
 			      :html-head-include-scripts nil

@@ -5,4 +5,5 @@
 Bienvenido a Verborrea, un espacio en donde redondeo y descargo mis ideas para liberar un poco mi cerebro.
 
 Notas:
++ [[file:bloquearSitiosWeb.org][Cómo bloquear sitios web en NixOS]]
 + [[file:publicarConEmacs.org][Cómo publicar sitios web estáticos con Emacs]]
