@@ -1,6 +1,5 @@
 #+title: Verborrea
 #+author: Juan E. Gómez-Morantes
-#+date: 2022:07:09
 
 Bienvenido a Verborrea, un espacio en donde redondeo y descargo mis ideas para liberar un poco mi cerebro.
 
@@ -8,5 +7,4 @@ Notas:
 + [[file:libroPalacio.org][Cinco libros para entender el Holocausto del Palacio]]
 + [[file:bloquearSitiosWeb.org][Cómo bloquear sitios web en NixOS]]
 + [[file:publicarConEmacs.org][Cómo publicar sitios web estáticos con Emacs]]
-+ [[file:termuxEmacs.org][Cómo usar Emacs en dispositivos Android con Termux]]
 + [[file:waydroidEnNixOS.org][Cómo usar Waydroid en Linux para emular sistemas Android]]
