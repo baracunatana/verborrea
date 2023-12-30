@@ -1,0 +1,46 @@
+#+title: Cómo usar =Emacs= en dispositivos =Android= con =Termux=
+#+author: Juan E. Gómez-Morantes
+#+date: 2022:12:12
+
+* Introducción
+=Emacs= es, sin lugar a dudas, una herramienta supremamente poderosa y es el centro de todo mi sistema de trabajo. Sin embargo, tiene un problema fundamental y es que no es fácil de usar en dispositivos móviles. Existen proyectos útiles hasta cierto punto como [[https://orgzly.com/][=orgzly=]] y [[https://orgro.org/][=orgro=]], pero estos están limitados a =org-mode= y, en adición, tienen su propias limitaciones. Teniendo esto en cuenta, este artículo muestra como usar un =emacs= completo en dispositivos móviles Android usando [[https://termux.dev/en/][=termux=]] y algunas otras herramientas. 
+
+Esto, por supuesto, no es un reemplazo completo a usar =emacs= en un ambiente =linux= completo y trae sus propios problemas. Las limitaciones principales son las siguientes:
++ No se tiene soporte =x-org=. Esto es equivalente a acceder =emacs= desde una consola, y no se pueden usar paquetes que dependan de =x-org= como =pdf-tools=. Tampoco se tiene soporte para mostrar imágenes en =org-mode= u otros modos que sí tienen esa funcionalidad en un ambiente gráfico completo.
++ El repositorio de paquetes de =termux= no es tan completo como el de una distribución =linux= completa. Esto dificulta algunas integraciones que sí son posibles y fáciles de configurar en distribuciones =linux= completas.
+
+* Requisitos
+Este artículo se construyó en una tableta [[https://amzn.to/3Pmq1bh][Levono M10 de tercera generación]][fn:1] con Android 12. En adición, se usa [[https://syncthing.net/][=syncthing=]] para sincronizar archivos entre dispositivos (la configuración de =syncthing= no será cubierta en este artículo). Finalmente, se recomienda usar un [[https://amzn.to/3VSnKHa][teclado externo]] o [[https://play.google.com/store/apps/details?id=org.pocketworkstation.pckeyboard&gl=US][Haker's keyboard]] si no se tiene acceso a uno.
+
+* Instalación y configuración
+Termux es un ambiente linux completo que corre dentro de Android. Tiene su propio repositorio de paquetes e incluye un emulador de terminal. Su instalación es igual de simple que cualquier otra aplicación de Android, pero debe ser instalada desde [[https://f-droid.org/en/][F-Droid]] y no desde Google Play. 
+
+Una vez se tenga =termux= instalado, lo abrimos y vamos a actualizarlo con los siguientes comandos:
+
+#+begin_src sh
+$ pkg upgrade
+#+end_src
+
+Inicialmente, vamos a tener un directorio =~/home= en el espacio de almacenamiento de la aplicación. Sin embargo, si se quiere tener sincronización de archivos entre dispositivos (usando, por ejemplo, =syncthing=), necesitaremos acceso al sistema de archivos completo del dispositivo. Para esto debemos ejecutar:
+
+#+begin_src sh
+$ termux-setup-storage
+#+end_src
+
+Ahora tenemos una carpeta =~/storage= a través de la cual podemos acceder a los archivos del dispositivo.
+
+** Instalación de =emacs=
+Para instalar =emacs=, se ejecuta el siguiente comando. De paso, instalamos =git= para que podamos usar [[https://github.com/radian-software/straight.el][=straight=]] dentro de =emacs= (aunque esto no es obligatorio).
+
+#+begin_src sh
+$ pkg install emacs git
+#+end_src
+
+Esto nos va a instalar =emacs= 28.2[fn:2], que si bien no es la versión más actualizada, es más que suficiente para la mayoría de usuarios en contextos de dispositivos móviles. Seguramente se puede compilar una versión mas actualizada de =emacs=, pero eso no será cubierto en este artículo.
+
+
+
+* Footnotes
+[fn:2] Versión más reciente de =emacs= en el repositorio de =termux= al [2022-12-12 Mon]
+
+[fn:1] Al hacer compras usando este enlace de Amazon recibo una pequeña comisión de la venta sin que esto te cueste más. Es una forma de apoyar la creación de este contenido si es que te fue útil. 

@@ -1,6 +1,6 @@
 # -*- eval: (setq org-babel-default-header-args:latex '((:results . "file raw") (:exports . "results") (:border . "0cm") (:headers . "\\usepackage{tikz} \\usetikzlibrary{positioning, shapes.symbols") (:imagemagick . "t"))) -*-
 #+title: Cómo publicar sitios web estáticos con Emacs
-#+author: Juan E. Gómez-Morantes
+#+author: Juan E. Gómez-Morantes, PhD
 #+date: 2022:07:10
 
 #+html_mathjax: autonumber: all

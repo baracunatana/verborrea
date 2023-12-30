@@ -4,30 +4,41 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Cómo publicar sitios web estáticos con Emacs</title>
-<meta name="author" content="Juan E. Gómez-Morantes" />
+<meta name="author" content="Juan E. Gómez-Morantes, PhD" />
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "all"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'all',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="org-div-home-and-up">
@@ -38,9 +49,9 @@
 <header>
 <h1 class="title">Cómo publicar sitios web estáticos con Emacs</h1>
 </header>
-<div id="outline-container-orgb89fd80" class="outline-2">
-<h2 id="orgb89fd80">Introducción</h2>
-<div class="outline-text-2" id="text-orgb89fd80">
+<div id="outline-container-org3241aba" class="outline-2">
+<h2 id="org3241aba">Introducción</h2>
+<div class="outline-text-2" id="text-org3241aba">
 <p>
 Esta nota muestra cómo crear un sitio web estático usando Emacs que pueda ser publicado en servicios como <a href="http://github.io">http://github.io</a>.
 </p>
@@ -51,9 +62,9 @@ Está inspirado y basado en una <a href="https://systemcrafters.net/publishing-w
 </div>
 </div>
 
-<div id="outline-container-org5f63700" class="outline-2">
-<h2 id="org5f63700">¿Por qué un sitio web estático?</h2>
-<div class="outline-text-2" id="text-org5f63700">
+<div id="outline-container-orgcc19517" class="outline-2">
+<h2 id="orgcc19517">¿Por qué un sitio web estático?</h2>
+<div class="outline-text-2" id="text-orgcc19517">
 <p>
 Cualquiera que esté pensando en publicar un sitio web sencillo pensaría en primera instancia en usar en servicio de publicación como wordpress.com o blogger.com. Sin embargo, estos servicios, a mi parecer, se pueden convertir rápidamente en una camisa de fuerza que nos impida hacer cosas que queremos hacer (como controlar completamente el CSS de nuestro sitio), o que nos obligue a hacer cosas que no queremos hacer (como mostrar publicidad o vulnerar la privacidad de nuestros lectores). En adición, el valor agregado es muy poco si lo que queremos hacer es un sitio sencillo y sin contenido activo o interactivo.
 </p>
@@ -64,9 +75,9 @@ Los sitios web estáticos, en cambio, son conjuntos de archivos hmtl sobre los q
 </div>
 </div>
 
-<div id="outline-container-org64096a0" class="outline-2">
-<h2 id="org64096a0">Inicio</h2>
-<div class="outline-text-2" id="text-org64096a0">
+<div id="outline-container-orgf4d8aac" class="outline-2">
+<h2 id="orgf4d8aac">Inicio</h2>
+<div class="outline-text-2" id="text-orgf4d8aac">
 <p>
 Lo primero que tenemos que hacer para crear y publicar nuestro sitio web es crear una carpeta en donde tengamos un conjunto de archivos <code>.org</code> que serán luego exportados a archivos <code>.html</code> y conformarán nuestro sitio web. Es muy importante tener uno llamado <code>index.org</code> porque éste va a servir como página inicial de nuestro sitio web. También hay que tener en cuenta que para crear enlaces entre las páginas de nuestro sitio web lo único que tenemos que hacer es crear enlaces entre los archivos <code>.org</code> fuentes teniendo cuidado de que las rutas sean relativas.  
 </p>
@@ -84,9 +95,9 @@ En adición, esta carpeta va a tener algunos archivos de gestión como <i>script
 </div>
 </div>
 
-<div id="outline-container-org7edfad4" class="outline-2">
-<h2 id="org7edfad4">Exportando el sitio web</h2>
-<div class="outline-text-2" id="text-org7edfad4">
+<div id="outline-container-orgadf8464" class="outline-2">
+<h2 id="orgadf8464">Exportando el sitio web</h2>
+<div class="outline-text-2" id="text-orgadf8464">
 <p>
 Existen muchas formas de exportar nuestros archivos <code>.org</code> a <code>.html</code>. La primera consiste en usar el <code>M-x org-export-dispatch</code> en cada uno de los archivos. Si bien esto nos da un control preciso de lo que estamos haciendo, es supremamente inconveniente y lento. Otra opción consiste en crear una función en elisp que recorra todos los archivos <code>.org</code> en nuestra carpeta y ejecute <code>M-x org-html-export-to-html</code> en cada uno de ellos. Sin embargo, como casi siempre en el mundo de emacs, este problema ya fue resuelto por alguien más, y esa solución se llama <a href="https://orgmode.org/manual/Publishing.html"><code>org-publish</code></a>.
 </p>
@@ -114,13 +125,13 @@ La definición de los proyectos tomados en cuenta por <code>org-publish</code> s
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #ffffff;">(</span><span style="color: #b6a0ff;">setq</span> org-publish-project-alist
-      <span style="color: #ff62d4;">(</span>list
-       <span style="color: #3fdfd0;">(</span>list <span style="color: #79a8ff;">"verborrea"</span>
-             <span style="color: #f78fe7;">:recursive</span> t
-             <span style="color: #f78fe7;">:base-directory</span> <span style="color: #79a8ff;">"/ruta/a/carpeta/contenido"</span>
-             <span style="color: #f78fe7;">:publishing-directory</span> <span style="color: #79a8ff;">"/ruta/a/carpeta/docs"</span>
-             <span style="color: #f78fe7;">:publishing-function</span> 'org-html-publish-to-html<span style="color: #3fdfd0;">)</span><span style="color: #ff62d4;">)</span><span style="color: #ffffff;">)</span>
+<pre class="src src-emacs-lisp">(<span style="color: #81A1C1;">setq</span> org-publish-project-alist
+      (list
+       (list <span style="color: #A3BE8C;">"verborrea"</span>
+             <span style="color: #81A1C1;">:recursive</span> t
+             <span style="color: #81A1C1;">:base-directory</span> <span style="color: #A3BE8C;">"/ruta/a/carpeta/contenido"</span>
+             <span style="color: #81A1C1;">:publishing-directory</span> <span style="color: #A3BE8C;">"/ruta/a/carpeta/docs"</span>
+             <span style="color: #81A1C1;">:publishing-function</span> 'org-html-publish-to-html)))
 </pre>
 </div>
 
@@ -144,35 +155,35 @@ Ejecutando <code>org-publish</code> en nuestro proyecto ejemplo, llegamos a la s
 </div>
 </div>
 
-<div id="outline-container-org2f453d2" class="outline-2">
-<h2 id="org2f453d2">Prueba y visualización</h2>
-<div class="outline-text-2" id="text-org2f453d2">
+<div id="outline-container-org8186e0f" class="outline-2">
+<h2 id="org8186e0f">Prueba y visualización</h2>
+<div class="outline-text-2" id="text-org8186e0f">
 <p>
 Si bien se pueden ver los archivos <code>.html</code> de forma individual usando cualquier explorador web, existe una mejor forma de probar nuestro sitio web como se vería una vez publicado en un servidor web, y nos la permite el paquete <code>simple-httpd</code> de Emacs. Una vez instalemos <code>simple-httpd</code> en emacs, se puede ejecutar <code>M-x httpd-serve-directory</code> especificando la ruta a nuestro directorio <code>docs</code>. Luego, desde un navegador web, nos dirigimos a localhost:8080 y veremos nuestro sitio web completo.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgd574112" class="outline-2">
-<h2 id="orgd574112">Configuración avanzada con <code>org-publish</code></h2>
-<div class="outline-text-2" id="text-orgd574112">
+<div id="outline-container-org82fab8d" class="outline-2">
+<h2 id="org82fab8d">Configuración avanzada con <code>org-publish</code></h2>
+<div class="outline-text-2" id="text-org82fab8d">
 <p>
 Una de las ventajas de usar <code>org-publish</code> es que permite configurar opciones de exportación que se aplican de forma consistente a todos las páginas del sitio web. Esto es fabuloso porque, si queremos cambiar algún aspecto de esta configuración, sólo tenemos que hacerlo en la definición del proyecto y no en cada uno de los archivos que componen el sitio web. La siguiente definición, por ejemplo, publica todas las páginas de nuestro sitio web sin tabla de contenido, sin especificar que se creó con Emacs, sin numeración de secciones, y sin fecha y hora de creación. 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #ffffff;">(</span><span style="color: #b6a0ff;">setq</span> org-publish-project-alist
-      <span style="color: #ff62d4;">(</span>list
-       <span style="color: #3fdfd0;">(</span>list <span style="color: #79a8ff;">"verborrea"</span>
-             <span style="color: #f78fe7;">:recursive</span> t
-             <span style="color: #f78fe7;">:base-directory</span> <span style="color: #79a8ff;">"/ruta/a/carpeta/contenido"</span>
-             <span style="color: #f78fe7;">:publishing-directory</span> <span style="color: #79a8ff;">"/ruta/a/carpeta/docs"</span>
-             <span style="color: #f78fe7;">:publishing-function</span> 'org-html-publish-to-html
-             <span style="color: #f78fe7;">:with-author</span> nil
-             <span style="color: #f78fe7;">:with-creator</span> t
-             <span style="color: #f78fe7;">:with-toc</span> t 
-             <span style="color: #f78fe7;">:section-numbers</span> nil
-             <span style="color: #f78fe7;">:time-stamp-file</span> nil<span style="color: #3fdfd0;">)</span><span style="color: #ff62d4;">)</span><span style="color: #ffffff;">)</span>
+<pre class="src src-emacs-lisp">(<span style="color: #81A1C1;">setq</span> org-publish-project-alist
+      (list
+       (list <span style="color: #A3BE8C;">"verborrea"</span>
+             <span style="color: #81A1C1;">:recursive</span> t
+             <span style="color: #81A1C1;">:base-directory</span> <span style="color: #A3BE8C;">"/ruta/a/carpeta/contenido"</span>
+             <span style="color: #81A1C1;">:publishing-directory</span> <span style="color: #A3BE8C;">"/ruta/a/carpeta/docs"</span>
+             <span style="color: #81A1C1;">:publishing-function</span> 'org-html-publish-to-html
+             <span style="color: #81A1C1;">:with-author</span> nil
+             <span style="color: #81A1C1;">:with-creator</span> t
+             <span style="color: #81A1C1;">:with-toc</span> t 
+             <span style="color: #81A1C1;">:section-numbers</span> nil
+             <span style="color: #81A1C1;">:time-stamp-file</span> nil)))
 </pre>
 </div>
 
@@ -181,17 +192,17 @@ Sin embargo, a este punto, resulta inconveniente tener la definición del proyec
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #ffffff;">(</span><span style="color: #ff62d4;">(</span>nil . <span style="color: #3fdfd0;">(</span><span style="color: #fba849;">(</span>eval . <span style="color: #9f80ff;">(</span><span style="color: #b6a0ff;">setq</span> org-publish-project-alist
-                       <span style="color: #4fe42f;">(</span>list
-                        <span style="color: #fe6060;">(</span>list <span style="color: #79a8ff;">"verborrea"</span>
-                              <span style="color: #f78fe7;">:recursive</span> t
-                              <span style="color: #f78fe7;">:base-directory</span> <span style="color: #4fafff;">(</span>concat <span style="color: #f0dd60;">(</span>projectile-project-root<span style="color: #f0dd60;">)</span> <span style="color: #79a8ff;">"contenido"</span><span style="color: #4fafff;">)</span>
-                              <span style="color: #f78fe7;">:publishing-directory</span> <span style="color: #4fafff;">(</span>concat <span style="color: #f0dd60;">(</span>projectile-project-root<span style="color: #f0dd60;">)</span> <span style="color: #79a8ff;">"docs"</span><span style="color: #4fafff;">)</span>
-                              <span style="color: #f78fe7;">:publishing-function</span> 'org-html-publish-to-html
-                              <span style="color: #f78fe7;">:with-author</span> nil
-                              <span style="color: #f78fe7;">:with-creator</span> t
-                              <span style="color: #f78fe7;">:with-toc</span> t 
-                              <span style="color: #f78fe7;">:section-numbers</span> nil<span style="color: #fe6060;">)</span><span style="color: #4fe42f;">)</span><span style="color: #9f80ff;">)</span><span style="color: #fba849;">)</span><span style="color: #3fdfd0;">)</span><span style="color: #ff62d4;">)</span><span style="color: #ffffff;">)</span>
+<pre class="src src-emacs-lisp">((nil . ((eval . (<span style="color: #81A1C1;">setq</span> org-publish-project-alist
+                       (list
+                        (list <span style="color: #A3BE8C;">"verborrea"</span>
+                              <span style="color: #81A1C1;">:recursive</span> t
+                              <span style="color: #81A1C1;">:base-directory</span> (concat (projectile-project-root) <span style="color: #A3BE8C;">"contenido"</span>)
+                              <span style="color: #81A1C1;">:publishing-directory</span> (concat (projectile-project-root) <span style="color: #A3BE8C;">"docs"</span>)
+                              <span style="color: #81A1C1;">:publishing-function</span> 'org-html-publish-to-html
+                              <span style="color: #81A1C1;">:with-author</span> nil
+                              <span style="color: #81A1C1;">:with-creator</span> t
+                              <span style="color: #81A1C1;">:with-toc</span> t 
+                              <span style="color: #81A1C1;">:section-numbers</span> nil)))))))
 </pre>
 </div>
 
@@ -226,9 +237,9 @@ Las opciones de configuración de proyecto de <code>org-publish</code> son mucha
 </div>
 </div>
 
-<div id="outline-container-org52db356" class="outline-2">
-<h2 id="org52db356">Mejorando el aspecto visual</h2>
-<div class="outline-text-2" id="text-org52db356">
+<div id="outline-container-org480dfe4" class="outline-2">
+<h2 id="org480dfe4">Mejorando el aspecto visual</h2>
+<div class="outline-text-2" id="text-org480dfe4">
 <p>
 Si usted ya generó sus primeras páginas con esta configuración, notará que es muy básica y de (muy) &laquo;vieja escuela&raquo;. Para mejorar esto sin necesidad de conocimientos o trabajo en <code>CSS</code> o <code>js</code>, podemos apoyarnos en plantillas de estilo pre-definidas como <a href="https://simplecss.org/">Simple.css</a> o <a href="https://github.com/fniessen/org-html-themes">ReadTheOrg</a>. Para esto, sólo tenemos que incluir la información necesaria de cada uno de estas plantillas en nuestra configuración de proyecto. Esto, y algunas otras mejoras, se configuran en los siguientes bloques.
 </p>
@@ -238,23 +249,23 @@ Para Simple.css:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #ffffff;">(</span><span style="color: #ff62d4;">(</span>nil . <span style="color: #3fdfd0;">(</span><span style="color: #fba849;">(</span>eval . <span style="color: #9f80ff;">(</span><span style="color: #b6a0ff;">setq</span> org-publish-project-alist 
-                       <span style="color: #4fe42f;">(</span>list
-                        <span style="color: #fe6060;">(</span>list <span style="color: #79a8ff;">"verborrea"</span>
-                              <span style="color: #f78fe7;">:recursive</span> t
-                              <span style="color: #f78fe7;">:base-directory</span> <span style="color: #4fafff;">(</span>concat <span style="color: #f0dd60;">(</span>projectile-project-root<span style="color: #f0dd60;">)</span> <span style="color: #79a8ff;">"contenido"</span><span style="color: #4fafff;">)</span>
-                              <span style="color: #f78fe7;">:publishing-directory</span> <span style="color: #4fafff;">(</span>concat <span style="color: #f0dd60;">(</span>projectile-project-root<span style="color: #f0dd60;">)</span> <span style="color: #79a8ff;">"docs"</span><span style="color: #4fafff;">)</span>
-                              <span style="color: #f78fe7;">:publishing-function</span> 'org-html-publish-to-html
-                              <span style="color: #f78fe7;">:with-author</span> t
-                              <span style="color: #f78fe7;">:with-creator</span> t
-                              <span style="color: #f78fe7;">:with-toc</span> nil
-                              <span style="color: #f78fe7;">:time-stamp-file</span> nil
-                              <span style="color: #f78fe7;">:html-validation-link</span> nil
-                              <span style="color: #f78fe7;">:html-link-home</span> <span style="color: #79a8ff;">"index.html"</span>
-                              <span style="color: #f78fe7;">:html-head-include-default-style</span> nil
-                              <span style="color: #f78fe7;">:html-head-include-scripts</span> nil
-                              <span style="color: #f78fe7;">:html-head</span> <span style="color: #79a8ff;">"&lt;link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" /&gt;"</span>
-                              <span style="color: #f78fe7;">:section-numbers</span> nil<span style="color: #fe6060;">)</span><span style="color: #4fe42f;">)</span><span style="color: #9f80ff;">)</span><span style="color: #fba849;">)</span><span style="color: #3fdfd0;">)</span><span style="color: #ff62d4;">)</span><span style="color: #ffffff;">)</span>
+<pre class="src src-emacs-lisp">((nil . ((eval . (<span style="color: #81A1C1;">setq</span> org-publish-project-alist 
+                       (list
+                        (list <span style="color: #A3BE8C;">"verborrea"</span>
+                              <span style="color: #81A1C1;">:recursive</span> t
+                              <span style="color: #81A1C1;">:base-directory</span> (concat (projectile-project-root) <span style="color: #A3BE8C;">"contenido"</span>)
+                              <span style="color: #81A1C1;">:publishing-directory</span> (concat (projectile-project-root) <span style="color: #A3BE8C;">"docs"</span>)
+                              <span style="color: #81A1C1;">:publishing-function</span> 'org-html-publish-to-html
+                              <span style="color: #81A1C1;">:with-author</span> t
+                              <span style="color: #81A1C1;">:with-creator</span> t
+                              <span style="color: #81A1C1;">:with-toc</span> nil
+                              <span style="color: #81A1C1;">:time-stamp-file</span> nil
+                              <span style="color: #81A1C1;">:html-validation-link</span> nil
+                              <span style="color: #81A1C1;">:html-link-home</span> <span style="color: #A3BE8C;">"index.html"</span>
+                              <span style="color: #81A1C1;">:html-head-include-default-style</span> nil
+                              <span style="color: #81A1C1;">:html-head-include-scripts</span> nil
+                              <span style="color: #81A1C1;">:html-head</span> <span style="color: #A3BE8C;">"&lt;link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" /&gt;"</span>
+                              <span style="color: #81A1C1;">:section-numbers</span> nil)))))))
 
 </pre>
 </div>
@@ -264,35 +275,35 @@ Para ReadTheOrg:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #ffffff;">(</span><span style="color: #ff62d4;">(</span>nil . <span style="color: #3fdfd0;">(</span><span style="color: #fba849;">(</span>eval . <span style="color: #9f80ff;">(</span><span style="color: #b6a0ff;">setq</span> org-publish-project-alist
-                       <span style="color: #4fe42f;">(</span>list
-                        <span style="color: #fe6060;">(</span>list <span style="color: #79a8ff;">"verborrea"</span>
-                              <span style="color: #f78fe7;">:recursive</span> t
-                              <span style="color: #f78fe7;">:base-directory</span> <span style="color: #4fafff;">(</span>concat <span style="color: #f0dd60;">(</span>projectile-project-root<span style="color: #f0dd60;">)</span> <span style="color: #79a8ff;">"contenido"</span><span style="color: #4fafff;">)</span>
-                              <span style="color: #f78fe7;">:publishing-directory</span> <span style="color: #4fafff;">(</span>concat <span style="color: #f0dd60;">(</span>projectile-project-root<span style="color: #f0dd60;">)</span> <span style="color: #79a8ff;">"docs"</span><span style="color: #4fafff;">)</span>
-                              <span style="color: #f78fe7;">:publishing-function</span> 'org-html-publish-to-html
-                              <span style="color: #f78fe7;">:with-author</span> t
-                              <span style="color: #f78fe7;">:with-creator</span> t
-                              <span style="color: #f78fe7;">:with-toc</span> t
-                              <span style="color: #f78fe7;">:time-stamp-file</span> nil
-                              <span style="color: #f78fe7;">:html-validation-link</span> nil
-                              <span style="color: #f78fe7;">:html-link-home</span> <span style="color: #79a8ff;">"index.html"</span>
-                              <span style="color: #f78fe7;">:html-head-include-default-style</span> nil
-                              <span style="color: #f78fe7;">:html-head-include-scripts</span> nil
-                              <span style="color: #f78fe7;">:html-head</span> <span style="color: #79a8ff;">"&lt;link rel=\"stylesheet\" type=\"text/css\" href=\"https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css\"/&gt;\n&lt;link rel=\"stylesheet\" type=\"text/css\" href=\"https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css\"/&gt;&lt;script src=\"https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js\"&gt;&lt;/script&gt;&lt;script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js\"&gt;&lt;/script&gt;&lt;script type=\"text/javascript\" src=\"https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js\"&gt;&lt;/script&gt;&lt;script type=\"text/javascript\" src=\"https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js\"&gt;&lt;/script&gt;"</span>
-                              <span style="color: #f78fe7;">:section-numbers</span> nil<span style="color: #fe6060;">)</span><span style="color: #4fe42f;">)</span><span style="color: #9f80ff;">)</span><span style="color: #fba849;">)</span><span style="color: #3fdfd0;">)</span><span style="color: #ff62d4;">)</span><span style="color: #ffffff;">)</span>
+<pre class="src src-emacs-lisp">((nil . ((eval . (<span style="color: #81A1C1;">setq</span> org-publish-project-alist
+                       (list
+                        (list <span style="color: #A3BE8C;">"verborrea"</span>
+                              <span style="color: #81A1C1;">:recursive</span> t
+                              <span style="color: #81A1C1;">:base-directory</span> (concat (projectile-project-root) <span style="color: #A3BE8C;">"contenido"</span>)
+                              <span style="color: #81A1C1;">:publishing-directory</span> (concat (projectile-project-root) <span style="color: #A3BE8C;">"docs"</span>)
+                              <span style="color: #81A1C1;">:publishing-function</span> 'org-html-publish-to-html
+                              <span style="color: #81A1C1;">:with-author</span> t
+                              <span style="color: #81A1C1;">:with-creator</span> t
+                              <span style="color: #81A1C1;">:with-toc</span> t
+                              <span style="color: #81A1C1;">:time-stamp-file</span> nil
+                              <span style="color: #81A1C1;">:html-validation-link</span> nil
+                              <span style="color: #81A1C1;">:html-link-home</span> <span style="color: #A3BE8C;">"index.html"</span>
+                              <span style="color: #81A1C1;">:html-head-include-default-style</span> nil
+                              <span style="color: #81A1C1;">:html-head-include-scripts</span> nil
+                              <span style="color: #81A1C1;">:html-head</span> <span style="color: #A3BE8C;">"&lt;link rel=\"stylesheet\" type=\"text/css\" href=\"https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css\"/&gt;\n&lt;link rel=\"stylesheet\" type=\"text/css\" href=\"https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css\"/&gt;&lt;script src=\"https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js\"&gt;&lt;/script&gt;&lt;script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js\"&gt;&lt;/script&gt;&lt;script type=\"text/javascript\" src=\"https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js\"&gt;&lt;/script&gt;&lt;script type=\"text/javascript\" src=\"https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js\"&gt;&lt;/script&gt;"</span>
+                              <span style="color: #81A1C1;">:section-numbers</span> nil)))))))
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1168348" class="outline-2">
-<h2 id="org1168348">Inclusión de imágenes</h2>
-<div class="outline-text-2" id="text-org1168348">
+<div id="outline-container-orgbdbef59" class="outline-2">
+<h2 id="orgbdbef59">Inclusión de imágenes</h2>
+<div class="outline-text-2" id="text-orgbdbef59">
 </div>
-<div id="outline-container-org8b251e0" class="outline-3">
-<h3 id="org8b251e0">Imágenes desde archivos</h3>
-<div class="outline-text-3" id="text-org8b251e0">
+<div id="outline-container-org8c5a2b9" class="outline-3">
+<h3 id="org8c5a2b9">Imágenes desde archivos</h3>
+<div class="outline-text-3" id="text-org8c5a2b9">
 <p>
 El primer tipo de imágenes que vamos a incluir son imágenes desde archivos multimedia como archivos <code>.jpg</code> o <code>.png</code>. Estas imágenes son fáciles de manejar ya que lo único que tenemos que hacer es ubicarlas en una carpeta que esté dentro de la carpeta en donde tenemos los archivos <code>.org</code> a partir de los cuales se genera nuestro sitio web, y crear un enlace apuntando a la imagen. Por ejemplo, en la siguiente estructura de archivos:
 </p>
@@ -314,7 +325,7 @@ el enlace:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><span style="color: #00bcff; text-decoration: underline;"><a href="file:media/nasa.jpg">file:media/nasa.jpg</a></span>
+<pre class="src src-org"><span style="color: #81A1C1; font-weight: bold; text-decoration: underline;"><a href="file:media/nasa.jpg">file:media/nasa.jpg</a></span>
 </pre>
 </div>
 
@@ -323,7 +334,7 @@ Nos mostrará la siguiente imagen.
 </p>
 
 
-<figure id="org75d8e63">
+<figure id="orgb336bdd">
 <img src="media/nasa.jpg" alt="nasa.jpg">
 
 </figure>
@@ -333,30 +344,30 @@ Para que esto funcione y sea fácil de exportar, tenemos que completar un poco n
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #ffffff;">(</span><span style="color: #ff62d4;">(</span>nil . <span style="color: #3fdfd0;">(</span><span style="color: #fba849;">(</span>eval . <span style="color: #9f80ff;">(</span><span style="color: #b6a0ff;">setq</span> org-publish-project-alist
-                       <span style="color: #4fe42f;">(</span>list
-                        <span style="color: #fe6060;">(</span>list <span style="color: #79a8ff;">"verborrea-org"</span>
-                              <span style="color: #f78fe7;">:recursive</span> t
-                              <span style="color: #f78fe7;">:base-directory</span> <span style="color: #4fafff;">(</span>concat <span style="color: #f0dd60;">(</span>projectile-project-root<span style="color: #f0dd60;">)</span> <span style="color: #79a8ff;">"contenido"</span><span style="color: #4fafff;">)</span>
-                              <span style="color: #f78fe7;">:publishing-directory</span> <span style="color: #4fafff;">(</span>concat <span style="color: #f0dd60;">(</span>projectile-project-root<span style="color: #f0dd60;">)</span> <span style="color: #79a8ff;">"docs"</span><span style="color: #4fafff;">)</span>
-                              <span style="color: #f78fe7;">:publishing-function</span> 'org-html-publish-to-html
-                              <span style="color: #f78fe7;">:with-author</span> t
-                              <span style="color: #f78fe7;">:with-creator</span> t
-                              <span style="color: #f78fe7;">:with-toc</span> nil
-                              <span style="color: #f78fe7;">:time-stamp-file</span> nil
-                              <span style="color: #f78fe7;">:html-validation-link</span> nil
-                              <span style="color: #f78fe7;">:html-link-home</span> <span style="color: #79a8ff;">"index.html"</span>
-                              <span style="color: #f78fe7;">:html-head-include-default-style</span> nil
-                              <span style="color: #f78fe7;">:html-head-include-scripts</span> nil
-                              <span style="color: #f78fe7;">:html-head</span> <span style="color: #79a8ff;">"&lt;link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" /&gt;"</span>
-                              <span style="color: #f78fe7;">:section-numbers</span> nil<span style="color: #fe6060;">)</span>
-                        <span style="color: #fe6060;">(</span>list <span style="color: #79a8ff;">"verborrea-img"</span>
-                              <span style="color: #f78fe7;">:base-directory</span> <span style="color: #4fafff;">(</span>concat <span style="color: #f0dd60;">(</span>projectile-project-root<span style="color: #f0dd60;">)</span> <span style="color: #79a8ff;">"contenido/media"</span><span style="color: #4fafff;">)</span>
-                              <span style="color: #f78fe7;">:base-extension</span> <span style="color: #79a8ff;">"png</span><span style="color: #abab00; font-weight: bold;">\\</span><span style="color: #e7a59a; font-weight: bold;">|</span><span style="color: #79a8ff;">jpg</span><span style="color: #abab00; font-weight: bold;">\\</span><span style="color: #e7a59a; font-weight: bold;">|</span><span style="color: #79a8ff;">gif"</span>
-                              <span style="color: #f78fe7;">:publishing-function</span> 'org-publish-attachment
-                              <span style="color: #f78fe7;">:publishing-directory</span> <span style="color: #4fafff;">(</span>concat <span style="color: #f0dd60;">(</span>projectile-project-root<span style="color: #f0dd60;">)</span> <span style="color: #79a8ff;">"docs/media"</span><span style="color: #4fafff;">)</span><span style="color: #fe6060;">)</span>
-                        <span style="color: #fe6060;">(</span>list <span style="color: #79a8ff;">"verborrea"</span>
-                              <span style="color: #f78fe7;">:components</span> '<span style="color: #4fafff;">(</span><span style="color: #79a8ff;">"verborrea-org"</span> <span style="color: #79a8ff;">"verborrea-img"</span><span style="color: #4fafff;">)</span><span style="color: #fe6060;">)</span><span style="color: #4fe42f;">)</span><span style="color: #9f80ff;">)</span><span style="color: #fba849;">)</span><span style="color: #3fdfd0;">)</span><span style="color: #ff62d4;">)</span><span style="color: #ffffff;">)</span>
+<pre class="src src-emacs-lisp">((nil . ((eval . (<span style="color: #81A1C1;">setq</span> org-publish-project-alist
+                       (list
+                        (list <span style="color: #A3BE8C;">"verborrea-org"</span>
+                              <span style="color: #81A1C1;">:recursive</span> t
+                              <span style="color: #81A1C1;">:base-directory</span> (concat (projectile-project-root) <span style="color: #A3BE8C;">"contenido"</span>)
+                              <span style="color: #81A1C1;">:publishing-directory</span> (concat (projectile-project-root) <span style="color: #A3BE8C;">"docs"</span>)
+                              <span style="color: #81A1C1;">:publishing-function</span> 'org-html-publish-to-html
+                              <span style="color: #81A1C1;">:with-author</span> t
+                              <span style="color: #81A1C1;">:with-creator</span> t
+                              <span style="color: #81A1C1;">:with-toc</span> nil
+                              <span style="color: #81A1C1;">:time-stamp-file</span> nil
+                              <span style="color: #81A1C1;">:html-validation-link</span> nil
+                              <span style="color: #81A1C1;">:html-link-home</span> <span style="color: #A3BE8C;">"index.html"</span>
+                              <span style="color: #81A1C1;">:html-head-include-default-style</span> nil
+                              <span style="color: #81A1C1;">:html-head-include-scripts</span> nil
+                              <span style="color: #81A1C1;">:html-head</span> <span style="color: #A3BE8C;">"&lt;link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" /&gt;"</span>
+                              <span style="color: #81A1C1;">:section-numbers</span> nil)
+                        (list <span style="color: #A3BE8C;">"verborrea-img"</span>
+                              <span style="color: #81A1C1;">:base-directory</span> (concat (projectile-project-root) <span style="color: #A3BE8C;">"contenido/media"</span>)
+                              <span style="color: #81A1C1;">:base-extension</span> <span style="color: #A3BE8C;">"png</span><span style="color: #81A1C1; font-weight: bold;">\\</span><span style="color: #81A1C1; font-weight: bold;">|</span><span style="color: #A3BE8C;">jpg</span><span style="color: #81A1C1; font-weight: bold;">\\</span><span style="color: #81A1C1; font-weight: bold;">|</span><span style="color: #A3BE8C;">gif"</span>
+                              <span style="color: #81A1C1;">:publishing-function</span> 'org-publish-attachment
+                              <span style="color: #81A1C1;">:publishing-directory</span> (concat (projectile-project-root) <span style="color: #A3BE8C;">"docs/media"</span>))
+                        (list <span style="color: #A3BE8C;">"verborrea"</span>
+                              <span style="color: #81A1C1;">:components</span> '(<span style="color: #A3BE8C;">"verborrea-org"</span> <span style="color: #A3BE8C;">"verborrea-img"</span>))))))))
 </pre>
 </div>
 
@@ -367,7 +378,7 @@ Lo que hicimos acá fue crear dos registro nuevos; uno para la carpeta de imáge
 <p>
 Nuestra carpeta de proyecto se verá así luego de llamar <code>M-x org-publish-all</code>:
 </p>
-<pre class="example" id="orgbc0a681">
+<pre class="example" id="org268a8b6">
 .
 ├── contenido
 │   ├── index.org
@@ -387,15 +398,15 @@ Un punto molesto es que hacerlo así implica duplicar nuestras imágenes, lo que
 </div>
 </div>
 
-<div id="outline-container-org8d24847" class="outline-3">
-<h3 id="org8d24847">Imágenes desde URLs</h3>
-<div class="outline-text-3" id="text-org8d24847">
+<div id="outline-container-orgad861e5" class="outline-3">
+<h3 id="orgad861e5">Imágenes desde URLs</h3>
+<div class="outline-text-3" id="text-orgad861e5">
 <p>
 Las imágenes desde URLs son más fáciles de menejar. Lo único que tenemos que hacer es crear un enlace al URL y listo. Por ejemplo, el siguiente enlace:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><span style="color: #00bcff; text-decoration: underline;"><a href="https://www.nasa.gov/sites/default/files/thumbnails/image/main_image_deep_field_smacs0723-5mb.jpg">https://www.nasa.gov/sites/default/files/thumbnails/image/main_image_deep_field_smacs0723-5mb.jpg</a></span>
+<pre class="src src-org"><span style="color: #81A1C1; font-weight: bold; text-decoration: underline;"><a href="https://www.nasa.gov/sites/default/files/thumbnails/image/main_image_deep_field_smacs0723-5mb.jpg">https://www.nasa.gov/sites/default/files/thumbnails/image/main_image_deep_field_smacs0723-5mb.jpg</a></span>
 </pre>
 </div>
 
@@ -404,16 +415,16 @@ Nos muestra la siguiente imagen:
 </p>
 
 
-<figure id="org0d21ab5">
+<figure id="org34f4010">
 <img src="https://www.nasa.gov/sites/default/files/thumbnails/image/main_image_deep_field_smacs0723-5mb.jpg" alt="main_image_deep_field_smacs0723-5mb.jpg">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-org21e04e3" class="outline-3">
-<h3 id="org21e04e3">Gráficas de Tikz</h3>
-<div class="outline-text-3" id="text-org21e04e3">
+<div id="outline-container-orgd85059a" class="outline-3">
+<h3 id="orgd85059a">Gráficas de Tikz</h3>
+<div class="outline-text-3" id="text-orgd85059a">
 <p>
 <a href="https://tikz.dev/"><code>Tikz</code></a> es un paquete de LaTex que permite crear diagramas y gráficas complejas con un lenguaje de marcado. Es muy utilizado en documentos técnicos y publicaciones académicas. Si bien tiene una curva de aprendizaje alta, hay que cosas que serían mucho más complejas de hacer de cualquier otra forma. En adición, al ser un lenguaje de marcado, la modificación de las imágenes es simple. 
 </p>
@@ -423,9 +434,9 @@ Nos muestra la siguiente imagen:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #ffffff;">(</span>org-babel-do-load-languages 'org-babel-load-languages
-                             <span style="color: #ff62d4;">(</span>append org-babel-load-languages
-                                     '<span style="color: #3fdfd0;">(</span><span style="color: #fba849;">(</span>latex . t<span style="color: #fba849;">)</span><span style="color: #3fdfd0;">)</span><span style="color: #ff62d4;">)</span><span style="color: #ffffff;">)</span>
+<pre class="src src-emacs-lisp">(org-babel-do-load-languages 'org-babel-load-languages
+                             (append org-babel-load-languages
+                                     '((latex . t))))
 </pre>
 </div>
 
@@ -433,7 +444,7 @@ Nos muestra la siguiente imagen:
 Ya podemos incluir bloques de código LaTex, incluyendo figuras Tikz, como se muestra a continuación
 </p>
 
-<pre class="example" id="orgbca1fdb">
+<pre class="example" id="org1a73347">
 #+name: tutorial
 #+header: :exports results :file media/test.png
 #+header: :results file raw :border 0cm
@@ -447,7 +458,7 @@ Ya podemos incluir bloques de código LaTex, incluyendo figuras Tikz, como se mu
 </pre>
 
 
-<figure id="org0fd12de">
+<figure id="org38a95e4">
 <img src="media/test.png" alt="test.png">
 
 </figure>
@@ -474,14 +485,14 @@ Este bloque de código tiene muchas etiquetas de configuración, que explicaremo
 Si vamos a utilizar muchas imágenes de Tikz en el mismo documento, podemos factorizar esta definición personalizando la variable <code>org-babel-default-header-args:latex</code> con los valores por defecto de la equiteta <code>#+header</code>. Esto se puede hacer para carpetas completas con la respectiva definición en <code>.dir-locals.el</code> o por archivo incluyendo la siguiente línea <b>como primera línea del archivo <code>.org</code></b>:
 </p>
 
-<pre class="example" id="orgba83dac">
+<pre class="example" id="orgafc601d">
 # -*- eval: (setq org-babel-default-header-args:latex '((:results . "file raw") (:exports . "results") (:border . "0cm") (:headers . "\\usepackage{tikz} \\usetikzlibrary{positioning, shapes.symbols") (:imagemagick . "t"))) -*-
 </pre>
 
 <p>
 Con esta configuración, nuestro bloque de código ahora se verá así:
 </p>
-<pre class="example" id="org986a4d4">
+<pre class="example" id="org3058b00">
 #+name: tutorial
 #+header: :file media/test.png
 #+begin_src latex
@@ -497,14 +508,14 @@ Con esto se aplicarán todas las opciones incluidas en el código anterior a tod
 </div>
 </div>
 
-<div id="outline-container-org76f982b" class="outline-3">
-<h3 id="org76f982b">Parámetros de imágenes</h3>
-<div class="outline-text-3" id="text-org76f982b">
+<div id="outline-container-orgaae8e78" class="outline-3">
+<h3 id="orgaae8e78">Parámetros de imágenes</h3>
+<div class="outline-text-3" id="text-orgaae8e78">
 <p>
 Algunas plantilla de css ayudan mucho a controlar el aspecto visual de las imágenes. <a href="https://simplecss.org/">Simple.css</a>, por ejemplo, controla el tamaño máximo de las imágenes que son demasiado grandes. Sin embargo, si queremos tener un control más preciso de las imágenes, o si no usamos un plantilla de css con estas capacidades, podemos usar la etiqueta <code>#+attr_html:</code> encima del enlace a nuestra imagen de la siguiente forma:
 </p>
 
-<pre class="example" id="orgb141b6e">
+<pre class="example" id="orgadb7439">
 #+attr_html: :width 10% :title Título de la imagen :parametro valor
 [[file:media/nasa.jpg]]
 </pre>
@@ -514,7 +525,7 @@ Esto nos mostrará lo siguiente:
 </p>
 
 
-<figure id="org8a0e23c">
+<figure id="org81d83dc">
 <img src="media/nasa.jpg" alt="nasa.jpg" width="10%" title="Título de la imagen" parametro="valor">
 
 </figure>
@@ -532,26 +543,26 @@ Finalmente, agregando la línea <code>#+caption: Descripción de la imagen</code
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #ffffff;">(</span><span style="color: #ff62d4;">(</span>nil . <span style="color: #3fdfd0;">(</span><span style="color: #fba849;">(</span>eval . <span style="color: #9f80ff;">(</span><span style="color: #b6a0ff;">setq</span> org-publish-project-alist 
-                       <span style="color: #4fe42f;">(</span>list
-                        <span style="color: #fe6060;">(</span>list <span style="color: #79a8ff;">"verborrea"</span>
-                              <span style="color: #f78fe7;">:recursive</span> t
-                              <span style="color: #f78fe7;">:base-directory</span> <span style="color: #4fafff;">(</span>concat <span style="color: #f0dd60;">(</span>projectile-project-root<span style="color: #f0dd60;">)</span> <span style="color: #79a8ff;">"contenido"</span><span style="color: #4fafff;">)</span>
-                              <span style="color: #f78fe7;">:publishing-directory</span> <span style="color: #4fafff;">(</span>concat <span style="color: #f0dd60;">(</span>projectile-project-root<span style="color: #f0dd60;">)</span> <span style="color: #79a8ff;">"docs"</span><span style="color: #4fafff;">)</span>
-                              <span style="color: #f78fe7;">:publishing-function</span> 'org-html-publish-to-html
-                              <span style="color: #f78fe7;">:with-author</span> t
-                              <span style="color: #f78fe7;">:with-creator</span> t
-                              <span style="color: #f78fe7;">:with-toc</span> nil
-                              <span style="color: #f78fe7;">:time-stamp-file</span> nil
-                              <span style="color: #f78fe7;">:html-validation-link</span> nil
-                              <span style="color: #f78fe7;">:html-link-home</span> <span style="color: #79a8ff;">"index.html"</span>
-                              <span style="color: #f78fe7;">:html-head-include-default-style</span> nil
-                              <span style="color: #f78fe7;">:html-head-include-scripts</span> nil
-                              <span style="color: #f78fe7;">:html-head</span> <span style="color: #79a8ff;">"&lt;link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" /&gt;"</span>
-                              <span style="color: #f78fe7;">:section-numbers</span> nil
-                              <span style="color: #f78fe7;">:language</span> <span style="color: #79a8ff;">"es"</span>
-                              <span style="color: #f78fe7;">:html-html5-fancy</span> t
-                              <span style="color: #f78fe7;">:html-doctype</span> <span style="color: #79a8ff;">"html5"</span><span style="color: #fe6060;">)</span><span style="color: #4fe42f;">)</span><span style="color: #9f80ff;">)</span><span style="color: #fba849;">)</span><span style="color: #3fdfd0;">)</span><span style="color: #ff62d4;">)</span><span style="color: #ffffff;">)</span>
+<pre class="src src-emacs-lisp">((nil . ((eval . (<span style="color: #81A1C1;">setq</span> org-publish-project-alist 
+                       (list
+                        (list <span style="color: #A3BE8C;">"verborrea"</span>
+                              <span style="color: #81A1C1;">:recursive</span> t
+                              <span style="color: #81A1C1;">:base-directory</span> (concat (projectile-project-root) <span style="color: #A3BE8C;">"contenido"</span>)
+                              <span style="color: #81A1C1;">:publishing-directory</span> (concat (projectile-project-root) <span style="color: #A3BE8C;">"docs"</span>)
+                              <span style="color: #81A1C1;">:publishing-function</span> 'org-html-publish-to-html
+                              <span style="color: #81A1C1;">:with-author</span> t
+                              <span style="color: #81A1C1;">:with-creator</span> t
+                              <span style="color: #81A1C1;">:with-toc</span> nil
+                              <span style="color: #81A1C1;">:time-stamp-file</span> nil
+                              <span style="color: #81A1C1;">:html-validation-link</span> nil
+                              <span style="color: #81A1C1;">:html-link-home</span> <span style="color: #A3BE8C;">"index.html"</span>
+                              <span style="color: #81A1C1;">:html-head-include-default-style</span> nil
+                              <span style="color: #81A1C1;">:html-head-include-scripts</span> nil
+                              <span style="color: #81A1C1;">:html-head</span> <span style="color: #A3BE8C;">"&lt;link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" /&gt;"</span>
+                              <span style="color: #81A1C1;">:section-numbers</span> nil
+                              <span style="color: #81A1C1;">:language</span> <span style="color: #A3BE8C;">"es"</span>
+                              <span style="color: #81A1C1;">:html-html5-fancy</span> t
+                              <span style="color: #81A1C1;">:html-doctype</span> <span style="color: #A3BE8C;">"html5"</span>)))))))
 </pre>
 </div>
 
@@ -564,7 +575,7 @@ Ahora, el siguiente bloque nos muestra imágenes con descripción usando la etiq
 </p>
 
 
-<figure id="org7f8b99e">
+<figure id="orgd2c6851">
 <img src="media/nasa.jpg" alt="nasa.jpg">
 
 <figcaption><span class="figure-number">Figura 1: </span>Créditos: NASA, ESA, CSA, y STScI.  Tomada de <a href="https://www.nasa.gov/webbfirstimages">https://www.nasa.gov/webbfirstimages</a></figcaption>
@@ -573,36 +584,36 @@ Ahora, el siguiente bloque nos muestra imágenes con descripción usando la etiq
 </div>
 </div>
 
-<div id="outline-container-org9b64525" class="outline-2">
-<h2 id="org9b64525">Inclusión de formulas matemáticas</h2>
-<div class="outline-text-2" id="text-org9b64525">
+<div id="outline-container-orga21022b" class="outline-2">
+<h2 id="orga21022b">Inclusión de formulas matemáticas</h2>
+<div class="outline-text-2" id="text-orga21022b">
 </div>
-<div id="outline-container-org29366a0" class="outline-3">
-<h3 id="org29366a0">Dos métodos para mostrar contenido matemático</h3>
-<div class="outline-text-3" id="text-org29366a0">
+<div id="outline-container-org7a404dd" class="outline-3">
+<h3 id="org7a404dd">Dos métodos para mostrar contenido matemático</h3>
+<div class="outline-text-3" id="text-org7a404dd">
 <p>
 El <a href="https://orgmode.org/manual/Math-formatting-in-HTML-export.html">manual de <code>org-mode</code></a> nos habla de dos formas de mostrar contenido matemático: procesar fórmulas en formato TeX y convertirlas a imágenes, o usar <a href="https://www.mathjax.org/">MathJax</a>. Si bien el método de las imágenes es efectivo, tiene problemas con la ubicación de las imágenes y no tiene tantas funcionalidades como MathJax. Siendo así, esta nota se centrará en el uso de MathJax.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orga0475d8" class="outline-3">
-<h3 id="orga0475d8">Formulas en línea</h3>
-<div class="outline-text-3" id="text-orga0475d8">
+<div id="outline-container-orgf35dea5" class="outline-3">
+<h3 id="orgf35dea5">Formulas en línea</h3>
+<div class="outline-text-3" id="text-orgf35dea5">
 <p>
 El primer tipo de fórmulas que vamos a ver son fórmulas en línea. Estas son fórmulas que fluyen con el texto como \(x²+y²=0\). Éstas se logran poniendo la fórmula (en sintaxis LaTex) entre los delimitadores <code>\( \)</code> dentro de un párrafo. Podría también usarse los delimitadores <code>$ $</code>, pero el manual de MathJax no lo recomienda ya que el símbolo <code>$</code> puede usarse para otros fines dentro de un texto y esto puede generar errores a la hora de mostrar el contenido.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org8e49196" class="outline-3">
-<h3 id="org8e49196">Formulas independientes</h3>
-<div class="outline-text-3" id="text-org8e49196">
+<div id="outline-container-org43803c0" class="outline-3">
+<h3 id="org43803c0">Formulas independientes</h3>
+<div class="outline-text-3" id="text-org43803c0">
 <p>
 Para formulas que queramos tener independientes o numeradas, se deben usar los delimitadores <code>$$ $$</code>. Por ejemplo, la siguiente línea
 </p>
 
-<pre class="example" id="org9319680">
+<pre class="example" id="org150dbe4">
 $$x+1\over\sqrt{1-x^2}\label{ref1}$$
 </pre>
 
@@ -615,14 +626,14 @@ Nos genera la siguiente ecuación:
 </p>
 </div>
 
-<div id="outline-container-org5713393" class="outline-4">
-<h4 id="org5713393">Numeración</h4>
-<div class="outline-text-4" id="text-org5713393">
+<div id="outline-container-org7edda9d" class="outline-4">
+<h4 id="org7edda9d">Numeración</h4>
+<div class="outline-text-4" id="text-org7edda9d">
 <p>
 Es importante anotar que Emacs no numera las ecuaciones por defecto. Para obtener esta numeración tenemos que activarla agregando la siguiente línea al inicio del archivo <code>.org</code> a exportar:
 </p>
 
-<pre class="example" id="org289c30b">
+<pre class="example" id="org1ab65ff">
 #+html_mathjax: autonumber: all
 </pre>
 
@@ -634,7 +645,7 @@ También podemos personalizar la variable <code>org-html-mathjax-options</code> 
 Si por algún motivo queremos queremos hacer referencia a la primera ecuación \ref{ref1}, lo podemos hacer usando:
 </p>
 
-<pre class="example" id="orgb343bbd">
+<pre class="example" id="org6f8dabb">
 \ref{ref1}
 </pre>
 
@@ -642,7 +653,7 @@ Si por algún motivo queremos queremos hacer referencia a la primera ecuación \
 Ahora, si por algún motivo queremos incluir una fórmula sin numeración, tenemos que agregar =\nonumber al final de la fórmula: 
 </p>
 
-<pre class="example" id="org61937c7">
+<pre class="example" id="orga751833">
 $$x+1\over\sqrt{1-x^2}\nonumber$$
 </pre>
 
@@ -652,14 +663,14 @@ $$x+1\over\sqrt{1-x^2}\nonumber$$
 </div>
 </div>
 
-<div id="outline-container-org85a897e" class="outline-4">
-<h4 id="org85a897e">Ambientes LaTex</h4>
-<div class="outline-text-4" id="text-org85a897e">
+<div id="outline-container-orgbffe882" class="outline-4">
+<h4 id="orgbffe882">Ambientes LaTex</h4>
+<div class="outline-text-4" id="text-orgbffe882">
 <p>
 Una de las mejores funcionalidades de MathJax es que permite la inclusión de ambientes de ecuaciones de LaTex. Por ejemplo, el siguiente código en un archivo <code>.org</code>
 </p>
 
-<pre class="example" id="org1137fee">
+<pre class="example" id="org8c6e300">
 \begin{align} 
 x&amp; = y_1-y_2+y_3-y_5+y_8-\dots &amp;&amp; \text{por \eqref{ref1}}\\ 
 &amp; = y'\circ y^* &amp;&amp; \text{por definición}\\ 
@@ -684,9 +695,9 @@ Como ven, las posibilidades de exportar contenido matemático con MathJax son mu
 </div>
 </div>
 </div>
-<div id="outline-container-org99e1088" class="outline-2">
-<h2 id="org99e1088">Cierre</h2>
-<div class="outline-text-2" id="text-org99e1088">
+<div id="outline-container-org26babe4" class="outline-2">
+<h2 id="org26babe4">Cierre</h2>
+<div class="outline-text-2" id="text-org26babe4">
 <p>
 Ya está. Ya puede crear un sitio web básico y con buen diseño web sin mayores conocimientos en <code>html</code>, <code>css</code>, o <code>js</code>. La forma más fácil de publicar esto es usando el servicio de <a href="http://github.io">http://github.io</a>, pero eso está por fuera del objetivo de esta nota.
 </p>
@@ -705,8 +716,8 @@ Esta carpeta puede tener cualquier nombre, pero nombrarla <code>docs</code> faci
 </div></div>
 <div id="postamble" class="status">
 <p class="date">Fecha: 2022:07:10</p>
-<p class="author">Autor: Juan E. Gómez-Morantes</p>
-<p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.1 (<a href="https://orgmode.org">Org</a> mode 9.5.2)</p>
+<p class="author">Autor: Juan E. Gómez-Morantes, PhD</p>
+<p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.1 (<a href="https://orgmode.org">Org</a> mode 9.7-pre)</p>
 </div>
 </body>
 </html>

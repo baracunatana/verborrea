@@ -1,0 +1,42 @@
+#+title: Cómo bloquear sitios web en NixOS
+#+author: Juan E. Gómez-Morantes
+#+date: 2022:08:05
+
+En esta nota mostraré cómo usar =waydroid= en sistemas operativos =NixOS=.
+
+* ¿Qué es =waydroid=?
+[[https://waydro.id/][Waydroid]] es un contenedor de Android que se puede correr sobre sistemas operativos Linux. Con él, se puede tener un ambiente Android completo dentro de una máquina Linux para correr aplicaciones nativas de Android.
+
+Como su nombre sugiere, requiere =wayland= para funcionar correctamente.
+
+* Instalación
+Hay que incluir las siguientes líneas en =configuration.nix=:
+
+#+begin_src nix
+  environment.systemPackages = with pkgs; [
+    ...
+    waydroid
+    ...
+  ];
+
+  virtualisation.waydroid.enable=true;
+#+end_src
+
+* Iniciación y configuración inicial
+Ya se tiene instalado =waydroid= y activado como servicio, pero ahora falta instalar una imagen de sistema operativo Android. Si se quiere un sistema vanilla, se debe correr el siguiente comando desde la terminal del sistema anfitrión:
+
+#+begin_src sh
+  $ sudo waydroid init
+#+end_src
+
+Este no tendrá ninguna aplicación de Google.
+
+Si, por el contrario, se quiere una imagen con el ecosistema Google, se debe hacer de la siguiente manera:
+
+#+begin_src sh
+  $ sudo waydroid init -f -s GAPPS
+#+end_src
+
+Luego de esto, y de reinicializar el servicio, se corre la aplicación =waydroid= desde el lanzador del ambiente del manejador de escritorio.
+
+Ahora tendremos que certificar el dispositivo en Google Play (si escogimos la imagen GAPPS), crear carpetas compartidas, y hacer otro tipo de configuraciones básicas. Toda esa información se encuentra en https://docs.waydro.id/. 

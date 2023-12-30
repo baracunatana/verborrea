@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cómo usar =Emacs= en dispositivos =Android= con =Termux=</title>
+<meta name="author" content="Juan E. Gómez-Morantes" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="content" class="content">
+<header>
+<h1 class="title">Cómo usar <code>Emacs</code> en dispositivos <code>Android</code> con <code>Termux</code></h1>
+</header>
+<div id="outline-container-orgc3c8131" class="outline-2">
+<h2 id="orgc3c8131">Introducción</h2>
+<div class="outline-text-2" id="text-orgc3c8131">
+<p>
+<code>Emacs</code> es, sin lugar a dudas, una herramienta supremamente poderosa y es el centro de todo mi sistema de trabajo. Sin embargo, tiene un problema fundamental y es que no es fácil de usar en dispositivos móviles. Existen proyectos útiles hasta cierto punto como <a href="https://orgzly.com/"><code>orgzly</code></a> y <a href="https://orgro.org/"><code>orgro</code></a>, pero estos están limitados a <code>org-mode</code> y, en adición, tienen su propias limitaciones. Teniendo esto en cuenta, este artículo muestra como usar un <code>emacs</code> completo en dispositivos móviles Android usando <a href="https://termux.dev/en/"><code>termux</code></a> y algunas otras herramientas. 
+</p>
+
+<p>
+Esto, por supuesto, no es un reemplazo completo a usar <code>emacs</code> en un ambiente <code>linux</code> completo y trae sus propios problemas. Las limitaciones principales son las siguientes:
+</p>
+<ul class="org-ul">
+<li>No se tiene soporte <code>x-org</code>. Esto es equivalente a acceder <code>emacs</code> desde una consola, y no se pueden usar paquetes que dependan de <code>x-org</code> como <code>pdf-tools</code>. Tampoco se tiene soporte para mostrar imágenes en <code>org-mode</code> u otros modos que sí tienen esa funcionalidad en un ambiente gráfico completo.</li>
+<li>El repositorio de paquetes de <code>termux</code> no es tan completo como el de una distribución <code>linux</code> completa. Esto dificulta algunas integraciones que sí son posibles y fáciles de configurar en distribuciones <code>linux</code> completas.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbf7488c" class="outline-2">
+<h2 id="orgbf7488c">Requisitos</h2>
+<div class="outline-text-2" id="text-orgbf7488c">
+<p>
+Este artículo se construyó en una tableta <a href="https://amzn.to/3Pmq1bh">Levono M10 de tercera generación</a><sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> con Android 12. En adición, se usa <a href="https://syncthing.net/"><code>syncthing</code></a> para sincronizar archivos entre dispositivos (la configuración de <code>syncthing</code> no será cubierta en este artículo). Finalmente, se recomienda usar un <a href="https://amzn.to/3VSnKHa">teclado externo</a> o <a href="https://play.google.com/store/apps/details?id=org.pocketworkstation.pckeyboard&amp;gl=US">Haker&rsquo;s keyboard</a> si no se tiene acceso a uno.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgda4eba8" class="outline-2">
+<h2 id="orgda4eba8">Instalación y configuración</h2>
+<div class="outline-text-2" id="text-orgda4eba8">
+<p>
+Termux es un ambiente linux completo que corre dentro de Android. Tiene su propio repositorio de paquetes e incluye un emulador de terminal. Su instalación es igual de simple que cualquier otra aplicación de Android, pero debe ser instalada desde <a href="https://f-droid.org/en/">F-Droid</a> y no desde Google Play. 
+</p>
+
+<p>
+Una vez se tenga <code>termux</code> instalado, lo abrimos y vamos a actualizarlo con los siguientes comandos:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">$ pkg upgrade
+</pre>
+</div>
+
+<p>
+Inicialmente, vamos a tener un directorio <code>~/home</code> en el espacio de almacenamiento de la aplicación. Sin embargo, si se quiere tener sincronización de archivos entre dispositivos (usando, por ejemplo, <code>syncthing</code>), necesitaremos acceso al sistema de archivos completo del dispositivo. Para esto debemos ejecutar:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">$ termux-setup-storage
+</pre>
+</div>
+
+<p>
+Ahora tenemos una carpeta <code>~/storage</code> a través de la cual podemos acceder a los archivos del dispositivo.
+</p>
+</div>
+
+<div id="outline-container-org37e5733" class="outline-3">
+<h3 id="org37e5733">Instalación de <code>emacs</code></h3>
+<div class="outline-text-3" id="text-org37e5733">
+<p>
+Para instalar <code>emacs</code>, se ejecuta el siguiente comando. De paso, instalamos <code>git</code> para que podamos usar <a href="https://github.com/radian-software/straight.el"><code>straight</code></a> dentro de <code>emacs</code> (aunque esto no es obligatorio).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">$ pkg install emacs git
+</pre>
+</div>
+
+<p>
+Esto nos va a instalar <code>emacs</code> 28.2<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>, que si bien no es la versión más actualizada, es más que suficiente para la mayoría de usuarios en contextos de dispositivos móviles. Seguramente se puede compilar una versión mas actualizada de <code>emacs</code>, pero eso no será cubierto en este artículo.
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Notas al pie de p&aacute;gina: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Al hacer compras usando este enlace de Amazon recibo una pequeña comisión de la venta sin que esto te cueste más. Es una forma de apoyar la creación de este contenido si es que te fue útil. 
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Versión más reciente de <code>emacs</code> en el repositorio de <code>termux</code> al <span class="timestamp-wrapper"><span class="timestamp">[2022-12-12 lun]</span></span>
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="date">Fecha: 2022:12:12</p>
+<p class="author">Autor: Juan E. Gómez-Morantes</p>
+<p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.1 (<a href="https://orgmode.org">Org</a> mode 9.7-pre)</p>
+</div>
+</body>
+</html>

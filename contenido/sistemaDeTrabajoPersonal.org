@@ -1,0 +1,6 @@
+#+title: Cómo publicar sitios web estáticos con Emacs
+#+author: Juan E. Gómez-Morantes, PhD
+#+date: 2023:03:01
+
+* Repositorios de proyectos
+Como ya se mencionó anteriormente, cada proyecto tiene una carpeta de activos (e.g., archivos, imágenes, documentos, notas, etc.) que son la materialización del proyecto. Esto es, no se limitan a insumos sino que también tienen resultados. Sin embargo, estos activos pueden ir cambiando durante el desarrollo del proyecto y, en ocasiones, es necesario tener un versionamiento de estos. Por ejemplo, los activos de un curso que se dicta semestre a semestre cambian en cada ejecución del curso. En lugar de tener un proyecto por semestre (con la repetición de archivos y el desperdicio de espacio de almacenamiento que esto supone), es mejor tener un repositorio Git para esto activos en donde se puedan generar ramas o versiones por semestre. De esta forma reducimos la necesidad de almacenamiento, tenemos todo en un mismo lugar, y tenemos una versión
