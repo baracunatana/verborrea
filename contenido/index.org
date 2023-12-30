@@ -8,3 +8,4 @@ Notas:
 + [[file:bloquearSitiosWeb.org][Cómo bloquear sitios web en NixOS]]
 + [[file:publicarConEmacs.org][Cómo publicar sitios web estáticos con Emacs]]
 + [[file:waydroidEnNixOS.org][Cómo usar Waydroid en Linux para emular sistemas Android]]
++ [[file:libros2024.org][Un año de libros - Edición 2023]]

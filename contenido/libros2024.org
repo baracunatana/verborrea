@@ -1,0 +1,84 @@
+#+title: Un año de libros - Edición 2023
+#+author: Juan E. Gómez-Morantes
+#+date: 2023:12:29
+
+Esta es una lista de los libros leídos durante el 2023, y un par que, a pesar de intentarlo, fueron abandonados.
+
+* Los leídos 
+| Título                                                                          | Autor                                                                           | Género               |
+|---------------------------------------------------------------------------------+---------------------------------------------------------------------------------+----------------------|
+| El infinito en un junco: la invención de los libros en el mundo antiguo         | Irene Vallejo                                                                   | No ficción           |
+| La Forma de Las Ruinas                                                          | Juan Gabriel Vásquez                                                            | Ficción              |
+| Mi historia                                                                     | Emmeline Pankhurst                                                              | No ficción           |
+| The Book of Goose                                                               | Yiyun Li                                                                        | Ficción              |
+| The Charisma Machine:  Death The Life and Legacy of One Laptop per Child,       | Morgan G. Ames                                                                  | Académico            |
+| Hoy es siempre todavía: la historia de cómo descubrí que el cáncer es como la vida | Alejandro Gaviria                                                               | No ficción           |
+| El Palacio de Justicia: Una Trajedia Colombiana                                 | Ana Carrigan                                                                    | No ficción           |
+| The Last White Man                                                              | Mohsin Hamid                                                                    | Ficción              |
+| A visit from the Goon Squad                                                     | Jennifer Egan                                                                   | Ficción              |
+| El palacio sin máscara                                                          | Germán Castro Caycedo                                                           | No ficción           |
+| Informe final de la comisión de la verdad sobre los hechos del Palacio de Justicia | Jorge Aníbal Gómez Gallego, José Roberto Herrera Vergara, y Nilson Pinilla Pinilla | No ficción           |
+| La Amiga Estupenda                                                              | Helena Ferrante                                                                 | Ficción              |
+| The Candy House                                                                 | Jennifer Egan                                                                   | Ficción              |
+| Un mal nombre                                                                   | Elena Ferrante                                                                  | Ficción              |
+| Rise up Women!: The Remarkable Lives of the Suffragettes                        | Diane Atkinson                                                                  | No ficción           |
+| Las deudas del cuerpo                                                           | Elena Ferrante                                                                  | Ficción              |
+| Memories of a Militant                                                          | Annie Kenney                                                                    | No ficción           |
+| Noches de humo: Los protagonistas de la toma del Palacio de Justicia            | Olga Behar                                                                      | No ficción           |
+| Mrs March                                                                       | Virginia Feito                                                                  | Ficción              |
+| How to do Nothing: Resisting the attention economy                              | Jenny Odell                                                                     | No ficción/Filosofía |
+| Lady Masacre                                                                    | Mario Mendoza                                                                   | Ficción              |
+| Deep Work                                                                       | Cal Newport                                                                     | Autoayuda            |
+| La Costa Nostra                                                                 | Laura Ardila Arrieta                                                            | No ficción           |
+| Murder on the Orient Express                                                    | Agatha Christie                                                                 | Ficción              |
+| Mi vida y el Palacio: 6 y 7 de noviembre de 1985                                | Helena Urán Bidegain                                                            | No ficción           |
+ 
+Leí veinticinco libros--y un puñado de artículos y documentos académicos--en 2023. Nada mal; uno cada 15 días.
+
+* Los pendientes
+Estos libros fueron empezados este años, pero todavía están pendientes.
+
+| Título                      | Autor          | Género     |
+|-----------------------------+----------------+------------|
+| La niña perdida             | Elena Ferrante | Ficción    |
+| Two Wheels Good             | Jody Rosen     | No ficción |
+| The human stain             | Philip Roth    | No ficción |
+| Weapons of Math Destruction | Cathy O'Neil   | No ficción |
+| Diálogos IV                 | Platón         | Filosofía  |
+
+Todos están interesantes y con seguridad van a ser terminados en las primeras semanas del 2024.
+
+Diálogos IV merece una mención especial, porque lo empecé en febrero y no he avanzada casi nada. Es un libro intimidatorio que, tal vez, no me siento preparado para iniciar. Pero no lo quiero abandonar tampoco.
+
+* Los caídos
+| Título                                  | Autor                         | Género     |
+|-----------------------------------------+-------------------------------+------------|
+| How to read nonfiction like a professor | Thomas C. Foster              | No ficción |
+| Teaching with Cases: A Practical Guide  | Espen Andersen y Bill Schiano | Académico  |
+| Soft systems methodology in action      | Peter Checkland y Jim Scholes | Académico  |
+
+Simplemente no fueron suficientemente interesantes (el caso de Foster) o no era el momento adecuado de leerlos (los dos académicos). Está por verse si les doy otra oportunidad.
+
+* Los sobresalientes
+Puedo decir con tranquilidad que no leí libros malos este año, pero hubo algunos puntos muy altos que se deben resaltar.
+
+En primer lugar está la serie Dos Amigas de Ferrante. Qué marranada de libros. En los superficial, la historia es interesante y la autora la lleva con buen ritmo; como dice uno de sus personas, es capas de mantener tensado el hilo que conecta al autor con el lector, sin llegar a romperlo. En lo profundo, es una serie que toca muchos temas (feminismo, posguerra, brecha social, anti-capitalismo, adultez, maternidad) y todos los toca de forma estupenda. Es fácilmente de lo mejor que he leído en mi vida.  
+
+Luego está /Book of Goose/ de Yiyun Li. Es un libro perturbador y encantador al mismo tiempo. Tal vez me quedó fácil cogerle cariño por la cercanía de la trama con Dos Amigas de Ferrante, pero incluso sin tener eso en cuenta es un libro precioso. 
+
+Finalmente por el lado de la ficción está /A Visit from the Goon Squad/ y (en menor medida) /The Candy House/ de Egan. Libros complejos y densos, que tratan temas fundamentales para las generaciones futuras como la privacidad y la ética en la era digital. Tienen un punto altísimo en el capítulo narrado con una presentación de /PowerPoint/ en /Goon Squad/. Qué marranada de capítulo.
+
+Por el lado de la no-ficción, la marranada mayor fue El Infinito en un Junco de Vallejo. Qué forma magistral de contar una historia que, en papel, no parece la más interesante. Es un libro precioso y absorbente que no tuvo página mala. 
+
+El siguiente en este género es /How to Do Nothing/ de Odell. Lo escogí porque creí que era un libro de autoayuda y quería algo ligero para leer, pero me terminó sorprendiendo gratamente. Si bien la segunda mitad del libro no me conectó tanto, el inicio es sorprendente. 
+
+Finalmente, la serie de libros sobre el Holocausto del Palacio de Justicia fue iluminadora, como también lo fue la serie sobre le movimiento sufragista.
+
+* Los que vienen
+El 2023 fue un buen año para la lectura. Sin duda.
+
+Pero fue solo un (re)comienzo.
+
+En 2024 quisiera llegar a un libro cada 10 días, y variar un poco los géneros. En particular, quiero meter más libros académicos y de filosofía, evitar las series largas de libros de no-ficción (me leí 5 libros del palacio de justicia...) para buscar más variedad en temáticas.
+
+También quisiera tomar más ritmo con la lectura de artículos académicos. Construir con ese material el mismo hábito que construí con la lectura de libros en este año.
