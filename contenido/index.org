@@ -6,6 +6,8 @@ Bienvenido a Verborrea, un espacio en donde redondeo y descargo mis ideas para l
 Notas:
 + [[file:libroPalacio.org][Cinco libros para entender el Holocausto del Palacio]]
 + [[file:bloquearSitiosWeb.org][Cómo bloquear sitios web en NixOS]]
++ [[file:loImportante.org][Cómo determinar lo importante]]
 + [[file:publicarConEmacs.org][Cómo publicar sitios web estáticos con Emacs]]
 + [[file:waydroidEnNixOS.org][Cómo usar Waydroid en Linux para emular sistemas Android]]
++ [[file:3-3-3.org][El modelo 3:3:3 de productividad personal]]
 + [[file:libros2024.org][Un año de libros - Edición 2023]]

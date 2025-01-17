@@ -1,0 +1,74 @@
+#+title: El modelo 3:3:3 de gestión de tiempo 
+#+author: Juan E. Gómez-Morantes
+#+date: 2024:12:27
+
+En una sesión de navegación por internet, ya no recuerdo específicamente en donde, encontré el modelo 3:3:3 para la gestión del tiempo personal. En esencia, consiste en dividir el día en tres bloques de tareas:
++ Tres horas de trabajo en lo más importante que tengas actualmente
++ Tres tareas cortas o que estés evadiendo
++ Tres tareas de mantenimiento
+
+Suena bien.
+
+En primer lugar, le da suficiente espacio a lo importante. El bloque inicial de tres horas de trabajo en lo más importante (e.g., el proyecto más importante que tengas actualmente) es suficiente espacio para realizar trabajo profundo y  significativo en áreas, proyectos, o tareas de alto impacto. En segundo lugar, tiene un enfoque específico en tareas evadidas. Estas tareas suelen acumularse en los sistemas de productividad y, eventualmente, hacen suficiente ruido como para ocultar lo importante o reducir la efectividad del sistema. En tercer lugar, también da espacio específico para tareas de mantenimiento, aquellas que permiten que todo lo demás funcione bien así no representen un producto específico. Con esto se garantiza el mantenimiento de niveles de desempeño mínimos en áreas o aspectos en los que se soportan las áreas importantes del primer bloque de trabajo (e.g., correo, aprendizaje, ejercicio y forma física, o tareas rutinarias). Finalmente, es simple. Involucra pocos tipos de tareas y conceptos, y las decisiones que plantean son aparentemente simples. La simplicidad siempre debe ser prioridad en este tipo de sistemas. 
+
+Sin embargo, quedan muchas preguntas abiertas y limitaciones que no se discuten frecuentemente al presentar este modelo.
+
+* Aplicabilidad
+Este modelo no es generalista; no es viable ni relevante para cualquier tipo de persona.
+
+Por ejemplo, personas que trabajen en funciones operativas o rutinarias tienen una lista de tareas supremamente concentrada en tareas de mantenimiento o tareas cortas, y muy poco en términos de proyectos o áreas importantes. Un conductor de bus o un enfermero no puede separar tres horas de su día para un único proyecto o área, porque su tiempo lo consume lo rutinario. De la misma forma, personas con agendas copadas (e.g., profesores de colegio) tienen poca flexibilidad en su manejo de tiempo y no se pueden dar el lujo de separar tres horas para aspectos macro. 
+
+Siguiendo esas ideas, se podría decir que este modelo es viable para personas con las siguientes características:
++ Tienen control de su propio tiempo y agenda
++ La mayoría de su trabajo es complejo y no-operativo. Lo que David Allen llama /knowledge workers/.
++ Tienen un sistema de productividad personal estable y son disciplinados con este 
+
+Uno de los mejores ejemplos de esto son los académicos o investigadores. 
+
+* Conceptualización
+El modelo parece simple en un inicio, pero detrás de esa simplicidad se esconde un conjunto de conceptos débiles que dificultan la implementación y operación del modelo. En particular, me preocupan el concepto de importancia en el primer bloque de trabajo, el de mantenimiento del tercero, y las zonas grises de tareas que fácilmente podrían clasificarse en cualquiera de los tres bloques de trabajo.
+
+** Cuando todo es importante, nada es importante
+Si bien el primer bloque de trabajo (tres horas en lo más importante que tengas actualmente) es suficientemente claro, no se dan suficientes elementos para determinar qué es lo más importante en la actualidad. Por ejemplo, no se hace diferencia entre importancia y urgencia. Esto podría verse como una ventaja; la flexibilidad que nos permite tomar decisiones día a día sin ataduras ni modelos algorítmicos que impongan trabajar en cosas que no queremos. Sin embargo, esta misma flexibilidad se convierte en un alto riesgo porque las tareas urgentes y de bajo impacto tienen más fuerza gravitacional que las macro--tienen la capacidad de permanecer en el tope de nuestras mentes y de parecer más importantes de lo que son.
+
+Sin un lineamiento concreto sobre cómo determinar qué es lo importante, se puede diluir la principal cualidad del modelo; el foco en "lo importante". 
+
+Una posible solución es mantener un sistema de puntuación o priorización para áreas, proyectos, o tareas, pero esto es artificial (la prioridad es subjetiva y dinámica) y rompe la simplicidad del modelo porque ahora habría que hacer un esfuerzo adicional para priorización de tareas al momento de capturarlo. Otra opción podría ser el establecimiento de jerarquías en donde se definan áreas de responsabilidad macro, y se asuma que los proyectos y tareas asociadas a esas áreas son también macro. Esto, sin embargo, es muy rígido porque no necesariamente toda tarea asociada con un área macro es de alto impacto. Como ven, no es un problema fácil de solucionar sin incurrir en esquemas artificiales, rígidos, o sobredimensionados. 
+
+Tal vez la dificultad de esta clasificación es resultado de la dificultad misma de definir prioridades en la vida (e.g, lo urgente vs lo importante, lo laboral vs lo personal) y no es una limitación propia del modelo. Si bien existen propuestas específicas para esto (e.g., GTD, la matriz de Eisenhawer, etc.), en el fondo todas sufren de lo mismo y el problema es más de la persona aplicando el método que del método en sí mismo. 
+
+Mi propuesta, discutida [[file:loImportante.org][acá]], consiste en hacer un ejercicio de introspección personal para definir nuestros componentes indentitarios fundamentales (e.g., "soy padre", "soy esposo", "soy investigador", "soy aficionado al fútbol", "soy ...") y los niveles de desempeño que queremos tener en estos (qué significa para mí ser un buen padre, un buen esposo, un buen investigador, un buen ...). Esto se puede hacer con metas u objetivos asociados a esos componentes identitarios o con indicadores de desempeño. Una vez clasificados los componentes identitarios según su nivel de importancia (se puede usar una escala de dos o tres niveles para esto), debemos clasificar todo proyecto actual en esos componentes identitarios. Ahora, toda tarea o proyecto debe estar relacionada con al menos un componente identitario. Luego de esto, al registrar una tarea en nuestro sistema de productividad personal, podremos clasificar esta tarea según el componente identitario al que esté asociado y el impacto que tiene en este componente (qué tan significativo es el aporte que hace a las metas, objetivos, o indicadores de la identidad).
+
+En adición, se debe hacer un ejercicio de revisión semanal o quincenal en donde se defina, semana a semana, cuál es el proyecto o área de mayor impacto en la actualidad. También se debe tener un principio de alta rotación de proyectos (se prefiere avanzar mucho un único proyecto que un poco en múltiples proyectos), y un foco en proyectos con orientación exterior; que produzcan algo valioso para personas u organizaciones que son importantes para mí. 
+
+Con esto, creo yo, es más fácil proteger lo realmente importante de lo urgente o lo placentero que se disfraza de importante.
+
+** ¿Mantenimiento de qué?
+La categoría de tareas de mantenimiento me resulta vaga y confusa. 
+
+[cite/text:@Bloom2023], por ejemplo, la define como "/activities [that] allows you to make progress on other focus areas of life, like health, relationships, housekeeping, and more./" Esto suena más a tareas no importantes que a tareas de mantenimiento. [cite/text:@Meer2023], por su parte, las define como "/items that make your life go smoothly/". Ni idea qué signifique eso...
+
+Para que esto funcione, se debe tener una definición concreta de qué es una tarea de mantenimiento y qué no lo es. 
+
+La respuesta, propongo, está en la clasificación de procesos de negocio propuesta por Michael Porter en su conocida cadena de valor, en donde se separan los procesos de negocio de una organización en procesos de línea (aquellos directamente relacionados con la producción de valor), de supervisión (aquellos que supervisan el funcionamiento de los demás), y los de soporte (aquellos que se aseguran de que los procesos de línea y supervisión se puedan ejecutar. Estos últimos son la base de mi definición de tareas de mantenimiento: aquellas que habilitan la ejecución de tareas o proyectos importantes. Son más Leonel Álvarez que Faustino Asprilla; no hacen el gol, pero sí recuperan el balón para habilitar la ofensiva.
+
+** Zonas grises
+Inevitablemente va a haber tareas que se puedan clasificar en más de una categoría, o tareas que no se puedan clasificar dentro de esta jerarquía. ¿Qué hacer en esos casos?
+
+Lo importante acá, creo, es posicionar el 3:3:3 como un *mínimo* para tener un buen día. Es decir, las tres horas en proyectos importantes, las tres tareas cortas, y las tres tareas de mantenimiento son lo mínimo que deberíamos realizar para considerar un día como bueno (al menos en términos de productividad personal). Siendo así, y asumiendo que esto no nos tome más de cuatro horas, tendríamos cuatro horas adicionales para otro tipo de tareas. Esto puede usarse para tiempo adicional en cualquiera de las categorías del modelo 3:3:3, para tareas que no que quepan en ninguna de esas categorías, o para tareas urgente.
+
+* Conclusión 
+Tomando todo lo anterior en cuenta, considero que el modelo 3:3:3 sí es viable para mi tipo de trabajo y estilo de vida. Más allá de ser viable, es también muy pertinente porque su gran fortaleza es una de mis grandes debilidades: mantener el foco en lo importante y proteger el tiempo de lo urgente. Siendo así, es algo que puedo implementar en mi día a día pero con algunas salvedades y adaptaciones.
+
+En primer lugar, se debe considerar como un mínimo diario. Esto es, en un día laboral, lo menos que debo hacer es:
++ Tres horas de trabajo en algo [[file:loImportante.org][importante]]
++ Tres tareas cortas o evadidas
++ Tres tareas de mantenimiento
+
+Esto no debería tomarme más de cuatro horas.
+
+El resto del día lo puedo dedicar a otras tareas, eventos, clases, reuniones, etc.
+
+Otro aspecto importante es que el 3:3:3 no se va a poder cumplir todos los días. En días con mucha carga da eventos presenciales o reuniones, está bien no completar 3:3:3. Dependiendo de la estructura del día, se puede hacer sólo el bloque de tres horas de trabajo importante, y las tres tareas de mantenimiento y las tres cortas. No hay que obsesionarse con esto ni darse mala vida para cumplirlo de forma obsesiva. 
+
+Finalmente, está el asunto de qué cuenta como mantenimiento. Por ejemplo, dormir bien, comer, o hacer ejercicio son tareas de mantenimiento. Sin embargo, si las tomo como tal, nunca haría nada diferente en el bloque de mantenimiento porque son cosas que hago todos los días. Las tareas de mantenimiento, entonces, no deben ser rutinarias o repetitivas. Sólo así tendrían sentido.
