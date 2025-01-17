@@ -48,10 +48,9 @@
 </div><div id="content" class="content">
 <header>
 <h1 class="title">Cómo publicar sitios web estáticos con Emacs</h1>
-</header>
-<div id="outline-container-orge58b0fd" class="outline-2">
-<h2 id="orge58b0fd">Introducción</h2>
-<div class="outline-text-2" id="text-orge58b0fd">
+</header><div id="outline-container-org2ad5b98" class="outline-2">
+<h2 id="org2ad5b98">Introducción</h2>
+<div class="outline-text-2" id="text-org2ad5b98">
 <p>
 Esta nota muestra cómo crear un sitio web estático usando Emacs que pueda ser publicado en servicios como <a href="http://github.io">http://github.io</a>.
 </p>
@@ -61,10 +60,9 @@ Está inspirado y basado en una <a href="https://systemcrafters.net/publishing-w
 </p>
 </div>
 </div>
-
-<div id="outline-container-org4c28083" class="outline-2">
-<h2 id="org4c28083">¿Por qué un sitio web estático?</h2>
-<div class="outline-text-2" id="text-org4c28083">
+<div id="outline-container-org6276424" class="outline-2">
+<h2 id="org6276424">¿Por qué un sitio web estático?</h2>
+<div class="outline-text-2" id="text-org6276424">
 <p>
 Cualquiera que esté pensando en publicar un sitio web sencillo pensaría en primera instancia en usar en servicio de publicación como wordpress.com o blogger.com. Sin embargo, estos servicios, a mi parecer, se pueden convertir rápidamente en una camisa de fuerza que nos impida hacer cosas que queremos hacer (como controlar completamente el CSS de nuestro sitio), o que nos obligue a hacer cosas que no queremos hacer (como mostrar publicidad o vulnerar la privacidad de nuestros lectores). En adición, el valor agregado es muy poco si lo que queremos hacer es un sitio sencillo y sin contenido activo o interactivo.
 </p>
@@ -74,10 +72,9 @@ Los sitios web estáticos, en cambio, son conjuntos de archivos hmtl sobre los q
 </p>
 </div>
 </div>
-
-<div id="outline-container-orge044962" class="outline-2">
-<h2 id="orge044962">Inicio</h2>
-<div class="outline-text-2" id="text-orge044962">
+<div id="outline-container-org60e01f1" class="outline-2">
+<h2 id="org60e01f1">Inicio</h2>
+<div class="outline-text-2" id="text-org60e01f1">
 <p>
 Lo primero que tenemos que hacer para crear y publicar nuestro sitio web es crear una carpeta en donde tengamos un conjunto de archivos <code>.org</code> que serán luego exportados a archivos <code>.html</code> y conformarán nuestro sitio web. Es muy importante tener uno llamado <code>index.org</code> porque éste va a servir como página inicial de nuestro sitio web. También hay que tener en cuenta que para crear enlaces entre las páginas de nuestro sitio web lo único que tenemos que hacer es crear enlaces entre los archivos <code>.org</code> fuentes teniendo cuidado de que las rutas sean relativas.  
 </p>
@@ -90,14 +87,13 @@ En adición, esta carpeta va a tener algunos archivos de gestión como <i>script
 .
 └── index.org
 
-0 directories, 1 file
+1 directory, 1 file
 </pre>
 </div>
 </div>
-
-<div id="outline-container-org8c74669" class="outline-2">
-<h2 id="org8c74669">Exportando el sitio web</h2>
-<div class="outline-text-2" id="text-org8c74669">
+<div id="outline-container-org78f0e1c" class="outline-2">
+<h2 id="org78f0e1c">Exportando el sitio web</h2>
+<div class="outline-text-2" id="text-org78f0e1c">
 <p>
 Existen muchas formas de exportar nuestros archivos <code>.org</code> a <code>.html</code>. La primera consiste en usar el <code>M-x org-export-dispatch</code> en cada uno de los archivos. Si bien esto nos da un control preciso de lo que estamos haciendo, es supremamente inconveniente y lento. Otra opción consiste en crear una función en elisp que recorra todos los archivos <code>.org</code> en nuestra carpeta y ejecute <code>M-x org-html-export-to-html</code> en cada uno de ellos. Sin embargo, como casi siempre en el mundo de emacs, este problema ya fue resuelto por alguien más, y esa solución se llama <a href="https://orgmode.org/manual/Publishing.html"><code>org-publish</code></a>.
 </p>
@@ -116,7 +112,7 @@ Las carpeta de nuestro proyecto ahora se ve así:
 │   └── index.org
 └── docs
 
-2 directories, 1 file
+3 directories, 1 file
 </pre>
 
 
@@ -150,23 +146,21 @@ Ejecutando <code>org-publish</code> en nuestro proyecto ejemplo, llegamos a la s
 └── docs
     └── index.html
 
-2 directories, 2 files
+3 directories, 2 files
 </pre>
 </div>
 </div>
-
-<div id="outline-container-orgf330c8e" class="outline-2">
-<h2 id="orgf330c8e">Prueba y visualización</h2>
-<div class="outline-text-2" id="text-orgf330c8e">
+<div id="outline-container-org4880d8b" class="outline-2">
+<h2 id="org4880d8b">Prueba y visualización</h2>
+<div class="outline-text-2" id="text-org4880d8b">
 <p>
 Si bien se pueden ver los archivos <code>.html</code> de forma individual usando cualquier explorador web, existe una mejor forma de probar nuestro sitio web como se vería una vez publicado en un servidor web, y nos la permite el paquete <code>simple-httpd</code> de Emacs. Una vez instalemos <code>simple-httpd</code> en emacs, se puede ejecutar <code>M-x httpd-serve-directory</code> especificando la ruta a nuestro directorio <code>docs</code>. Luego, desde un navegador web, nos dirigimos a localhost:8080 y veremos nuestro sitio web completo.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org8c20093" class="outline-2">
-<h2 id="org8c20093">Configuración avanzada con <code>org-publish</code></h2>
-<div class="outline-text-2" id="text-org8c20093">
+<div id="outline-container-orgd47313d" class="outline-2">
+<h2 id="orgd47313d">Configuración avanzada con <code>org-publish</code></h2>
+<div class="outline-text-2" id="text-orgd47313d">
 <p>
 Una de las ventajas de usar <code>org-publish</code> es que permite configurar opciones de exportación que se aplican de forma consistente a todos las páginas del sitio web. Esto es fabuloso porque, si queremos cambiar algún aspecto de esta configuración, sólo tenemos que hacerlo en la definición del proyecto y no en cada uno de los archivos que componen el sitio web. La siguiente definición, por ejemplo, publica todas las páginas de nuestro sitio web sin tabla de contenido, sin especificar que se creó con Emacs, sin numeración de secciones, y sin fecha y hora de creación. 
 </p>
@@ -227,7 +221,7 @@ Con esto, nuestra carpeta raíz se ve así:
 │   └── index.html
 └── .git
 
-2 directories, 4 files
+3 directories, 4 files
 </pre>
 
 
@@ -236,10 +230,9 @@ Las opciones de configuración de proyecto de <code>org-publish</code> son mucha
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgf69ac21" class="outline-2">
-<h2 id="orgf69ac21">Mejorando el aspecto visual</h2>
-<div class="outline-text-2" id="text-orgf69ac21">
+<div id="outline-container-orge1dafb5" class="outline-2">
+<h2 id="orge1dafb5">Mejorando el aspecto visual</h2>
+<div class="outline-text-2" id="text-orge1dafb5">
 <p>
 Si usted ya generó sus primeras páginas con esta configuración, notará que es muy básica y de (muy) &laquo;vieja escuela&raquo;. Para mejorar esto sin necesidad de conocimientos o trabajo en <code>CSS</code> o <code>js</code>, podemos apoyarnos en plantillas de estilo pre-definidas como <a href="https://simplecss.org/">Simple.css</a> o <a href="https://github.com/fniessen/org-html-themes">ReadTheOrg</a>. Para esto, sólo tenemos que incluir la información necesaria de cada uno de estas plantillas en nuestra configuración de proyecto. Esto, y algunas otras mejoras, se configuran en los siguientes bloques.
 </p>
@@ -296,14 +289,13 @@ Para ReadTheOrg:
 </div>
 </div>
 </div>
-
-<div id="outline-container-org0891ede" class="outline-2">
-<h2 id="org0891ede">Inclusión de imágenes</h2>
-<div class="outline-text-2" id="text-org0891ede">
+<div id="outline-container-org3c35431" class="outline-2">
+<h2 id="org3c35431">Inclusión de imágenes</h2>
+<div class="outline-text-2" id="text-org3c35431">
 </div>
-<div id="outline-container-orgd684161" class="outline-3">
-<h3 id="orgd684161">Imágenes desde archivos</h3>
-<div class="outline-text-3" id="text-orgd684161">
+<div id="outline-container-org86674cf" class="outline-3">
+<h3 id="org86674cf">Imágenes desde archivos</h3>
+<div class="outline-text-3" id="text-org86674cf">
 <p>
 El primer tipo de imágenes que vamos a incluir son imágenes desde archivos multimedia como archivos <code>.jpg</code> o <code>.png</code>. Estas imágenes son fáciles de manejar ya que lo único que tenemos que hacer es ubicarlas en una carpeta que esté dentro de la carpeta en donde tenemos los archivos <code>.org</code> a partir de los cuales se genera nuestro sitio web, y crear un enlace apuntando a la imagen. Por ejemplo, en la siguiente estructura de archivos:
 </p>
@@ -316,7 +308,7 @@ El primer tipo de imágenes que vamos a incluir son imágenes desde archivos mul
 │       └── nasa.jpg
 └── docs
 
-3 directories, 2 files
+4 directories, 2 files
 </pre>
 
 
@@ -334,7 +326,7 @@ Nos mostrará la siguiente imagen.
 </p>
 
 
-<figure id="org904a3c5">
+<figure id="org52025e3">
 <img src="media/nasa.jpg" alt="nasa.jpg">
 
 </figure>
@@ -378,7 +370,7 @@ Lo que hicimos acá fue crear dos registro nuevos; uno para la carpeta de imáge
 <p>
 Nuestra carpeta de proyecto se verá así luego de llamar <code>M-x org-publish-all</code>:
 </p>
-<pre class="example" id="org7f226e9">
+<pre class="example" id="orgdb80df3">
 .
 ├── contenido
 │   ├── index.org
@@ -389,7 +381,7 @@ Nuestra carpeta de proyecto se verá así luego de llamar <code>M-x org-publish-
     └── media
         └── nasa.jpg
 
-4 directories, 4 files
+5 directories, 4 files
 </pre>
 
 <p>
@@ -397,10 +389,9 @@ Un punto molesto es que hacerlo así implica duplicar nuestras imágenes, lo que
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgef6fff8" class="outline-3">
-<h3 id="orgef6fff8">Imágenes desde URLs</h3>
-<div class="outline-text-3" id="text-orgef6fff8">
+<div id="outline-container-orga6f8b1d" class="outline-3">
+<h3 id="orga6f8b1d">Imágenes desde URLs</h3>
+<div class="outline-text-3" id="text-orga6f8b1d">
 <p>
 Las imágenes desde URLs son más fáciles de menejar. Lo único que tenemos que hacer es crear un enlace al URL y listo. Por ejemplo, el siguiente enlace:
 </p>
@@ -415,107 +406,20 @@ Nos muestra la siguiente imagen:
 </p>
 
 
-<figure id="org07af1a1">
+<figure id="orgf82f353">
 <img src="https://www.nasa.gov/sites/default/files/thumbnails/image/main_image_deep_field_smacs0723-5mb.jpg" alt="main_image_deep_field_smacs0723-5mb.jpg">
 
 </figure>
 </div>
 </div>
-
-<div id="outline-container-orged8a46b" class="outline-3">
-<h3 id="orged8a46b">Gráficas de Tikz</h3>
-<div class="outline-text-3" id="text-orged8a46b">
-<p>
-<a href="https://tikz.dev/"><code>Tikz</code></a> es un paquete de LaTex que permite crear diagramas y gráficas complejas con un lenguaje de marcado. Es muy utilizado en documentos técnicos y publicaciones académicas. Si bien tiene una curva de aprendizaje alta, hay que cosas que serían mucho más complejas de hacer de cualquier otra forma. En adición, al ser un lenguaje de marcado, la modificación de las imágenes es simple. 
-</p>
-
-<p>
-<code>org-mode</code> y <code>babel</code> tienen soporte nativo para LaTex, lo que nos permite incluir bloques de código LaTex (con una imagen <code>tikz</code>) y mostrar el resultado como imagen. Sin embargo, para lograrlo tenemos que tener instalado el paquete <code>imagemagick</code> en nuestros computadores. Esta instalación depende de su sistema operativo, así que no será cubierta en esta nota. En adición, hay que activar LaTex en <code>babel</code> incluyendo el siguiente código en nuestra configuración de Emacs:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">(org-babel-do-load-languages 'org-babel-load-languages
-                             (append org-babel-load-languages
-                                     '((latex . t))))
-</pre>
-</div>
-
-<p>
-Ya podemos incluir bloques de código LaTex, incluyendo figuras Tikz, como se muestra a continuación
-</p>
-
-<pre class="example" id="org0f80db4">
-#+name: tutorial
-#+header: :exports results :file media/test.png
-#+header: :results file raw :border 0cm
-#+header: :imagemagick t
-#+header: :headers '("\\usepackage{tikz} \\usetikzlibrary{positioning, shapes.symbols, calc}")
-#+begin_src latex
-  \begin{tikzpicture}
-    \fill[blue!40!red] (0,0) rectangle (1,1);
-  \end{tikzpicture}
-#+end_src
-</pre>
-
-
-<figure id="org86f1b02">
-<img src="media/test.png" alt="test.png">
-
-</figure>
-
-<p>
-Este bloque de código tiene muchas etiquetas de configuración, que explicaremos a continuación.
-</p>
-
-<ul class="org-ul">
-<li><code>#+name:</code> es el nombre de la figura. No tiene mayor efecto en generación de archivos html.</li>
-<li><code>#+header:</code> son los parámetros usados al momento de ejecutar el código LaTex.
-<ul class="org-ul">
-<li><code>:exports results</code> nos dice que se va a exportar el resultado de ejecutar el bloque de código pero no el código. Otras opciones para este parámetro son <code>none</code> para no exportar ni código ni resultado, <code>code</code> para exportar el código, o <code>both</code> para exportar código y resultado de ejecución.</li>
-<li><code>:file</code> es la ruta en donde se va a guardar la imagen generada. Dada la configuración que hemos realizado con <code>org-publish-project-alist</code>, estas imágenes deben guardarse en la carpeta <code>contenido/media</code>.</li>
-<li><code>:results file raw</code> indica que el contenido es un enlace a archivo y se debe mostrar sin encerrarse en ningún bloque específico. Otras opciones para este parámetro se encuentran en el <a href="https://orgmode.org/manual/Results-of-Evaluation.html">manual de org-mode</a>, aunque no son muy relevantes para lo que estamos haciendo.</li>
-<li><code>:border 0cm</code> indica que la figura no debe tener ningún borde.</li>
-<li><code>:imagemagick t</code> se usa cuando queremos exportar a formatos distintos a <code>.pdf</code>. Es necesario para publicación de sitos web.</li>
-<li><code>:headers</code> es una lista en donde se especifica el preámbulo de LaTex para la ejecución del código. Es necesario incluir los paquetes de LaTex que se van a utilizar (no olvidar <code>tikz</code>) y las librerías de Tikz que necesitemos.</li>
-<li>Existen otras opciones descritas en el <a href="https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-LaTeX.html">manual de org-mode</a>.</li>
-</ul></li>
-</ul>
-
-<p>
-Si vamos a utilizar muchas imágenes de Tikz en el mismo documento, podemos factorizar esta definición personalizando la variable <code>org-babel-default-header-args:latex</code> con los valores por defecto de la equiteta <code>#+header</code>. Esto se puede hacer para carpetas completas con la respectiva definición en <code>.dir-locals.el</code> o por archivo incluyendo la siguiente línea <b>como primera línea del archivo <code>.org</code></b>:
-</p>
-
-<pre class="example" id="orgee91bff">
-# -*- eval: (setq org-babel-default-header-args:latex '((:results . "file raw") (:exports . "results") (:border . "0cm") (:headers . "\\usepackage{tikz} \\usetikzlibrary{positioning, shapes.symbols") (:imagemagick . "t"))) -*-
-</pre>
-
-<p>
-Con esta configuración, nuestro bloque de código ahora se verá así:
-</p>
-<pre class="example" id="org392d17d">
-#+name: tutorial
-#+header: :file media/test.png
-#+begin_src latex
-  \begin{tikzpicture}
-    \fill[blue!40!red] (0,0) rectangle (1,1);
-  \end{tikzpicture}
-#+end_src
-</pre>
-
-<p>
-Con esto se aplicarán todas las opciones incluidas en el código anterior a todas los bloques de LaTex que se incluyan en nuestro archivo <code>.org</code>. Si para algún caso específico requerimos modificar algún parámetro en específico, sólo tenemos que agregarla al bloque y este valor tendrá precedencia sobre los definidos en <code>org-babel-default-header-args:latex</code>. 
-</p>
-</div>
-</div>
-
-<div id="outline-container-org6bae021" class="outline-3">
-<h3 id="org6bae021">Parámetros de imágenes</h3>
-<div class="outline-text-3" id="text-org6bae021">
+<div id="outline-container-org2b6edf0" class="outline-3">
+<h3 id="org2b6edf0">Parámetros de imágenes</h3>
+<div class="outline-text-3" id="text-org2b6edf0">
 <p>
 Algunas plantilla de css ayudan mucho a controlar el aspecto visual de las imágenes. <a href="https://simplecss.org/">Simple.css</a>, por ejemplo, controla el tamaño máximo de las imágenes que son demasiado grandes. Sin embargo, si queremos tener un control más preciso de las imágenes, o si no usamos un plantilla de css con estas capacidades, podemos usar la etiqueta <code>#+attr_html:</code> encima del enlace a nuestra imagen de la siguiente forma:
 </p>
 
-<pre class="example" id="orgffab66e">
+<pre class="example" id="orga678b62">
 #+attr_html: :width 10% :title Título de la imagen :parametro valor
 [[file:media/nasa.jpg]]
 </pre>
@@ -525,7 +429,7 @@ Esto nos mostrará lo siguiente:
 </p>
 
 
-<figure id="org4a94f25">
+<figure id="org207c0e1">
 <img src="media/nasa.jpg" alt="nasa.jpg" width="10%" title="Título de la imagen" parametro="valor">
 
 </figure>
@@ -575,7 +479,7 @@ Ahora, el siguiente bloque nos muestra imágenes con descripción usando la etiq
 </p>
 
 
-<figure id="org0f1c831">
+<figure id="org44ee4e2">
 <img src="media/nasa.jpg" alt="nasa.jpg">
 
 <figcaption><span class="figure-number">Figura 1: </span>Créditos: NASA, ESA, CSA, y STScI.  Tomada de <a href="https://www.nasa.gov/webbfirstimages">https://www.nasa.gov/webbfirstimages</a></figcaption>
@@ -583,37 +487,34 @@ Ahora, el siguiente bloque nos muestra imágenes con descripción usando la etiq
 </div>
 </div>
 </div>
-
-<div id="outline-container-org05fcbb6" class="outline-2">
-<h2 id="org05fcbb6">Inclusión de formulas matemáticas</h2>
-<div class="outline-text-2" id="text-org05fcbb6">
+<div id="outline-container-org5bfe162" class="outline-2">
+<h2 id="org5bfe162">Inclusión de formulas matemáticas</h2>
+<div class="outline-text-2" id="text-org5bfe162">
 </div>
-<div id="outline-container-orgfbb9c2c" class="outline-3">
-<h3 id="orgfbb9c2c">Dos métodos para mostrar contenido matemático</h3>
-<div class="outline-text-3" id="text-orgfbb9c2c">
+<div id="outline-container-org2eed0fd" class="outline-3">
+<h3 id="org2eed0fd">Dos métodos para mostrar contenido matemático</h3>
+<div class="outline-text-3" id="text-org2eed0fd">
 <p>
 El <a href="https://orgmode.org/manual/Math-formatting-in-HTML-export.html">manual de <code>org-mode</code></a> nos habla de dos formas de mostrar contenido matemático: procesar fórmulas en formato TeX y convertirlas a imágenes, o usar <a href="https://www.mathjax.org/">MathJax</a>. Si bien el método de las imágenes es efectivo, tiene problemas con la ubicación de las imágenes y no tiene tantas funcionalidades como MathJax. Siendo así, esta nota se centrará en el uso de MathJax.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org245eec4" class="outline-3">
-<h3 id="org245eec4">Formulas en línea</h3>
-<div class="outline-text-3" id="text-org245eec4">
+<div id="outline-container-org2540fac" class="outline-3">
+<h3 id="org2540fac">Formulas en línea</h3>
+<div class="outline-text-3" id="text-org2540fac">
 <p>
 El primer tipo de fórmulas que vamos a ver son fórmulas en línea. Estas son fórmulas que fluyen con el texto como \(x²+y²=0\). Éstas se logran poniendo la fórmula (en sintaxis LaTex) entre los delimitadores <code>\( \)</code> dentro de un párrafo. Podría también usarse los delimitadores <code>$ $</code>, pero el manual de MathJax no lo recomienda ya que el símbolo <code>$</code> puede usarse para otros fines dentro de un texto y esto puede generar errores a la hora de mostrar el contenido.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org3a167d8" class="outline-3">
-<h3 id="org3a167d8">Formulas independientes</h3>
-<div class="outline-text-3" id="text-org3a167d8">
+<div id="outline-container-org9c11251" class="outline-3">
+<h3 id="org9c11251">Formulas independientes</h3>
+<div class="outline-text-3" id="text-org9c11251">
 <p>
 Para formulas que queramos tener independientes o numeradas, se deben usar los delimitadores <code>$$ $$</code>. Por ejemplo, la siguiente línea
 </p>
 
-<pre class="example" id="orgb08919b">
+<pre class="example" id="org06c3ea7">
 $$x+1\over\sqrt{1-x^2}\label{ref1}$$
 </pre>
 
@@ -625,15 +526,14 @@ Nos genera la siguiente ecuación:
 \[x+1\over\sqrt{1-x^2}\label{ref1}\]
 </p>
 </div>
-
-<div id="outline-container-org8af2e02" class="outline-4">
-<h4 id="org8af2e02">Numeración</h4>
-<div class="outline-text-4" id="text-org8af2e02">
+<div id="outline-container-org6cc367e" class="outline-4">
+<h4 id="org6cc367e">Numeración</h4>
+<div class="outline-text-4" id="text-org6cc367e">
 <p>
 Es importante anotar que Emacs no numera las ecuaciones por defecto. Para obtener esta numeración tenemos que activarla agregando la siguiente línea al inicio del archivo <code>.org</code> a exportar:
 </p>
 
-<pre class="example" id="org06b3c8d">
+<pre class="example" id="org516b416">
 #+html_mathjax: autonumber: all
 </pre>
 
@@ -645,7 +545,7 @@ También podemos personalizar la variable <code>org-html-mathjax-options</code> 
 Si por algún motivo queremos queremos hacer referencia a la primera ecuación \ref{ref1}, lo podemos hacer usando:
 </p>
 
-<pre class="example" id="org3ec9425">
+<pre class="example" id="orgcc491f8">
 \ref{ref1}
 </pre>
 
@@ -653,7 +553,7 @@ Si por algún motivo queremos queremos hacer referencia a la primera ecuación \
 Ahora, si por algún motivo queremos incluir una fórmula sin numeración, tenemos que agregar =\nonumber al final de la fórmula: 
 </p>
 
-<pre class="example" id="org6e77b01">
+<pre class="example" id="orgbde5489">
 $$x+1\over\sqrt{1-x^2}\nonumber$$
 </pre>
 
@@ -662,15 +562,14 @@ $$x+1\over\sqrt{1-x^2}\nonumber$$
 </p>
 </div>
 </div>
-
-<div id="outline-container-org2bb5de9" class="outline-4">
-<h4 id="org2bb5de9">Ambientes LaTex</h4>
-<div class="outline-text-4" id="text-org2bb5de9">
+<div id="outline-container-org0f7f91a" class="outline-4">
+<h4 id="org0f7f91a">Ambientes LaTex</h4>
+<div class="outline-text-4" id="text-org0f7f91a">
 <p>
 Una de las mejores funcionalidades de MathJax es que permite la inclusión de ambientes de ecuaciones de LaTex. Por ejemplo, el siguiente código en un archivo <code>.org</code>
 </p>
 
-<pre class="example" id="org27dd3fb">
+<pre class="example" id="org779174e">
 \begin{align} 
 x&amp; = y_1-y_2+y_3-y_5+y_8-\dots &amp;&amp; \text{por \eqref{ref1}}\\ 
 &amp; = y'\circ y^* &amp;&amp; \text{por definición}\\ 
@@ -695,9 +594,9 @@ Como ven, las posibilidades de exportar contenido matemático con MathJax son mu
 </div>
 </div>
 </div>
-<div id="outline-container-orgf416c56" class="outline-2">
-<h2 id="orgf416c56">Cierre</h2>
-<div class="outline-text-2" id="text-orgf416c56">
+<div id="outline-container-org297724d" class="outline-2">
+<h2 id="org297724d">Cierre</h2>
+<div class="outline-text-2" id="text-org297724d">
 <p>
 Ya está. Ya puede crear un sitio web básico y con buen diseño web sin mayores conocimientos en <code>html</code>, <code>css</code>, o <code>js</code>. La forma más fácil de publicar esto es usando el servicio de <a href="http://github.io">http://github.io</a>, pero eso está por fuera del objetivo de esta nota.
 </p>
@@ -717,7 +616,7 @@ Esta carpeta puede tener cualquier nombre, pero nombrarla <code>docs</code> faci
 <div id="postamble" class="status">
 <p class="date">Fecha: 2022:07:10</p>
 <p class="author">Autor: Juan E. Gómez-Morantes, PhD</p>
-<p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.1 (<a href="https://orgmode.org">Org</a> mode 9.7-pre)</p>
+<p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)</p>
 </div>
 </body>
 </html>
