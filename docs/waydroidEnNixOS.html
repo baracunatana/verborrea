@@ -19,10 +19,9 @@
 </header><p>
 En esta nota mostraré cómo usar <code>waydroid</code> en sistemas operativos <code>NixOS</code>.
 </p>
-
-<div id="outline-container-orgb7f05e1" class="outline-2">
-<h2 id="orgb7f05e1">¿Qué es <code>waydroid</code>?</h2>
-<div class="outline-text-2" id="text-orgb7f05e1">
+<div id="outline-container-orgc8d53dc" class="outline-2">
+<h2 id="orgc8d53dc">¿Qué es <code>waydroid</code>?</h2>
+<div class="outline-text-2" id="text-orgc8d53dc">
 <p>
 <a href="https://waydro.id/">Waydroid</a> es un contenedor de Android que se puede correr sobre sistemas operativos Linux. Con él, se puede tener un ambiente Android completo dentro de una máquina Linux para correr aplicaciones nativas de Android.
 </p>
@@ -32,30 +31,28 @@ Como su nombre sugiere, requiere <code>wayland</code> para funcionar correctamen
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgee9a147" class="outline-2">
-<h2 id="orgee9a147">Instalación</h2>
-<div class="outline-text-2" id="text-orgee9a147">
+<div id="outline-container-orgec561ab" class="outline-2">
+<h2 id="orgec561ab">Instalación</h2>
+<div class="outline-text-2" id="text-orgec561ab">
 <p>
 Hay que incluir las siguientes líneas en <code>configuration.nix</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nix">environment.systemPackages = with pkgs; [
+<pre class="src src-nix"><span style="color: #D8DEE9;">environment.systemPackages</span> = <span style="color: #81A1C1;">with</span> pkgs; [
   ...
   waydroid
   ...
 ];
 
-virtualisation.waydroid.enable=true;
+<span style="color: #D8DEE9;">virtualisation.waydroid.enable</span>=true;
 </pre>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org6ff36df" class="outline-2">
-<h2 id="org6ff36df">Iniciación y configuración inicial</h2>
-<div class="outline-text-2" id="text-org6ff36df">
+<div id="outline-container-orgf9fd450" class="outline-2">
+<h2 id="orgf9fd450">Iniciación y configuración inicial</h2>
+<div class="outline-text-2" id="text-orgf9fd450">
 <p>
 Ya se tiene instalado <code>waydroid</code> y activado como servicio, pero ahora falta instalar una imagen de sistema operativo Android. Si se quiere un sistema vanilla, se debe correr el siguiente comando desde la terminal del sistema anfitrión:
 </p>
@@ -91,7 +88,7 @@ Ahora tendremos que certificar el dispositivo en Google Play (si escogimos la im
 <div id="postamble" class="status">
 <p class="date">Fecha: 2022:08:05</p>
 <p class="author">Autor: Juan E. Gómez-Morantes</p>
-<p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.1 (<a href="https://orgmode.org">Org</a> mode 9.7-pre)</p>
+<p class="creator"><a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)</p>
 </div>
 </body>
 </html>
